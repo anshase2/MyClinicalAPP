@@ -12,6 +12,7 @@ namespace ClinicsAPP.Controllers
             new Doctor { FullName = "osama anshasi" ,Specalist = "Heart",Description="aa"},
             new Doctor { FullName = "osama anshasi" ,Specalist = "Heart" },
             new Doctor { FullName = "osama anshasi" ,Specalist = "Heart" } };
+              ViewBag.Title = "Doctor List";
             return View( doctors);
         }
     }
