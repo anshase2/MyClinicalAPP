@@ -1,0 +1,111 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - WebApplication</title>
+    <link rel="stylesheet" href="~/css/bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/StyleSheetLogin.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/StyleSheetLogin.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <!-- خلفية الصفحة أزرق فاتح -->
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+            <div class="container">
+                <img src="~/Homeicon.jpg" alt="Logo" style="height: 60px; width: 60px; margin-right: 10px;">
+
+
+                <a class="navbar-brand text-dark fw-bold" href="#">MyClinic</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="#">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="#">Doctors</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="#">Services</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="#">Contact</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-page="/login">login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-page="/Create an account">Create account</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </nav>
+        <!-- Blue Separator -->
+        <div style="height: 5px; width: 25%; background-color: #00bfff;"></div>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+
+    <footer class="border-bottom  footer text-muted bg-light py-0">
+
+        <!-- Blue Separator before Footer -->
+        <div style="height: 2px;     margin: 0 30px;
+         border-radius: 5px; background-color: #00bfff;"></div>
+
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center flex-wrap">
+
+                <!-- يسار: سوشال ميديا -->
+                <div class="social-icons mb-1 ">
+                    <a href="#" class="text-dark fs-4 me-3"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="text-dark fs-4 me-3"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="text-dark fs-4"><i class="bi bi-whatsapp"></i></a>
+                </div>
+
+                <!-- الوسط: النص والروابط -->
+                <div class="text-center mx-auto mb-0">
+                    <ul class="list-inline mb-3">
+                        <li class="list-inline-item"><a href="#" class="text-dark text-decoration-none">Home</a></li>
+                        <li class="list-inline-item"><a href="#" class="text-dark text-decoration-none">Doctors</a></li>
+                        <li class="list-inline-item"><a href="#" class="text-dark text-decoration-none">Services</a></li>
+                        <li class="list-inline-item"><a href="#" class="text-dark text-decoration-none">Contact</a></li>
+
+
+                    </ul>
+                    <p class="mb-3"><a href="#" class="text-dark text-decoration-none">Privacy Policy</a></p>
+                    <p class="mb-0">&copy; 2025 MyClinic. All rights reserved.</p>
+
+                </div>
+
+                <!-- يمين: Find Us -->
+                <div class="text-md-end mb-3">
+                    <h5 class="fw-bold mb-3">Find Us</h5>
+                    <p class="mb-3"><i class="bi bi-envelope me-1"></i> info@myclinic.com</p>
+                    <p class="mb-0"><i class="bi bi-printer me-1"></i> Fax: +1 234 567 890</p>
+                </div>
+
+            </div>
+        </div>
+    </footer>
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>
+
+

@@ -1,0 +1,82 @@
+﻿@{
+    ViewData["Title"] = "Doctor Profile";
+}
+
+<link rel="stylesheet" href="~/css/StyleSheetDocProfile.css" />
+
+<div class="profile-page">
+
+    <div class="profile-grid">
+
+        <!-- LEFT: Doctor Card -->
+        <div class="profile-card">
+            <div class="profile-head">
+                <img src="~/OIP.webp" class="doctor-img" alt="Doctor" />
+
+                <div class="profile-meta">
+                    <h2>Dr. Osama Anshasi</h2>
+                    <div class="specialty">Cardiology Specialist</div>
+                    <div class="location">📍 Amman – University Street</div>
+
+                    <div class="badges">
+                        <span class="badge">⭐ 4.9</span>
+                        <span class="badge">💬 99</span>
+                        <span class="badge">👁 36,816</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BOOK button isolated (not crowded) -->
+            <div class="book-area">
+                <a class="btn-book" href="/Doctor/book-appointment">BOOK APPOINTMENT</a>
+                <div class="hint">Fast booking • Confirm in minutes</div>
+            </div>
+        </div>
+
+        <!-- RIGHT: Details -->
+        <div class="profile-details">
+
+            <div class="review-box">
+                <div class="stars">★★★★★</div>
+                <p>Excellent doctor, very professional and respectful.</p>
+                <small>— Awad</small>
+            </div>
+
+            <div class="tabs">
+                <button class="active">About</button>
+                <button>Locations</button>
+                <button>Insurance</button>
+                <button>Working Hours</button>
+            </div>
+
+            <div class="tab-content">
+                <h3>About the Doctor</h3>
+                <p>
+                    Specialized in heart diseases, vascular conditions, and interventional catheterization procedures.
+                </p>
+
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-title">Experience</div>
+                        <div class="info-value">10+ Years</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-title">Clinic</div>
+                        <div class="info-value">MyClinic – Downtown</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-title">Consultation Fee</div>
+                        <div class="info-value">$25</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-title">Availability</div>
+                        <div class="info-value">Today</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+

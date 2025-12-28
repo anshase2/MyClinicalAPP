@@ -1,0 +1,171 @@
+﻿
+@using ClinicsAPP.Models
+@model List<Doctor>;
+<link rel="stylesheet" href="~/css/StyleSheetDocList.css" />
+
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="fw-bold display-5">Find & Book Your <span class="text-primary-custom">Doctor</span></h1>
+        <p class="text-muted">Search from thousands of verified doctors and book appointments instantly.</p>
+    </div>
+
+    <div class="card shadow-sm border-0 rounded-4 p-4 mx-auto search-card">
+        <div class="card-body">
+            <h5 class="card-title mb-4 d-flex align-items-center">
+                <i class="bi bi-search me-2"></i> Search Options
+            </h5>
+
+            <form asp-action="Search" method="get">
+                <div class="row g-3">
+                    <!-- Doctor Name -->
+                    <div class="col-md-6">
+                        <label asp-for="DoctorName" class="form-label text-muted small fw-semibold">Doctor Name</label>
+                        <input asp-for="DoctorName" class="form-control bg-light border-0 py-2" placeholder="Search by name...">
+                    </div>
+
+                    <!-- Gender -->
+                    <div class="col-md-6">
+                        <label asp-for="Gender" class="form-label text-muted small fw-semibold">Gender</label>
+                        <select asp-for="Gender" class="form-select bg-light border-0 py-2">
+                            <option value="">All Genders</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </div>
+
+                    <!-- Language -->
+                    <div class="col-md-6">
+                        <label asp-for="Language" class="form-label text-muted small fw-semibold">Language</label>
+                        <select asp-for="Language" class="form-select bg-light border-0 py-2">
+                            <option value="">All Languages</option>
+                            <option value="English">English</option>
+                            <option value="Spanish">Spanish</option>
+                            <option value="Arabic">Arabic</option>
+                        </select>
+                    </div>
+
+                    <!-- Medical Specialty -->
+                    <div class="col-md-6">
+                        <label asp-for="Specialty" class="form-label text-muted small fw-semibold">Medical Specialty</label>
+                        <select asp-for="Specialty" class="form-select bg-light border-0 py-2">
+                            <option value="">All Specialties</option>
+                            <option value="Cardiology">Cardiology</option>
+                            <option value="Dermatology">Dermatology</option>
+                            <option value="Pediatrics">Pediatrics</option>
+                        </select>
+                    </div>
+
+                    <!-- Medical Services -->
+                    <div class="col-md-6">
+                        <label asp-for="Service" class="form-label text-muted small fw-semibold">Medical Services</label>
+                        <select asp-for="Service" class="form-select bg-light border-0 py-2">
+                            <option value="">All Services</option>
+                            <option value="Consultation">Consultation</option>
+                            <option value="Surgery">Surgery</option>
+                        </select>
+                    </div>
+
+                    <!-- Insurance Companies -->
+                    <div class="col-md-6">
+                        <label asp-for="Insurance" class="form-label text-muted small fw-semibold">Insurance Companies</label>
+                        <select asp-for="Insurance" class="form-select bg-light border-0 py-2">
+                            <option value="">All Insurance</option>
+                            <option value="Aetna">Aetna</option>
+                            <option value="Cigna">Cigna</option>
+                        </select>
+                    </div>
+
+                    <!-- Location (GPS) -->
+                    <div class="col-12 mt-4">
+                        <div class="d-flex align-items-center">
+                            <span class="text-muted small fw-semibold me-3">Location (GPS)</span>
+                            <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill px-3 d-flex align-items-center">
+                                <i class="bi bi-geo-alt me-1"></i> Use My Location
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="d-flex justify-content-end gap-2 mt-4">
+                    <button type="reset" class="btn btn-light border px-4 d-flex align-items-center">
+                        <i class="bi bi-x-lg me-2"></i> Clear
+                    </button>
+                    <button type="submit" class="btn btn-primary-custom px-4 d-flex align-items-center text-white">
+                        <i class="bi bi-search me-2"></i> Search
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Section 2: Available Doctors -->
+<div class="results-section">
+    <div class="d-flex justify-content-between align-items-end mb-4">
+        <div>
+            <h3 class="fw-bold mb-1">Available Doctors</h3>
+            <p class="text-muted small mb-0">Model.AvailableDoctors.Count doctors found</p>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+            <span class="text-muted small">Sort by:</span>
+            <select class="form-select form-select-sm border-0 bg-light px-3 py-2 rounded-3" style="width: auto;">
+                <option>Price</option>
+                <option>Rating</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        @foreach (var doctor in Model)
+        {
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 border-0 shadow-sm rounded-4 doctor-card">
+                    <div class="card-body p-4">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <div class="d-flex align-items-center">
+                                <img src="~/OIP.webp" alt=@doctor.FullName class="rounded-circle me-3 object-fit-cover" width="60" height="60">
+                                <div>
+                                    <h6 class="fw-bold mb-0">@doctor.FullName</h6>
+                                    <p class="text-muted small mb-1">@doctor.Specalist</p>
+                                    <div class="d-flex align-items-center text-warning small">
+                                        @for (int i = 0; i < 5; i++)
+                                        {
+                                            <i class="bi bi-star-fill (i < doctor.Rating ? "" : "text-muted opacity-25")"></i>
+                                        }
+                                        <span class="ms-2 text-dark fw-bold">doctor.Rating</span>
+                                        <span class="ms-1 text-muted">(4)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-primary-custom fw-bold">
+                                $doctor.Price
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="d-flex align-items-center text-muted small mb-1">
+                                <i class="bi bi-geo-alt me-2"></i> doctor.Location
+                            </div>
+                            <div class="d-flex align-items-center text-muted small">
+                                <i class="bi bi-telephone me-2"></i> doctor.Phone
+                            </div>
+                        </div>
+
+                        <p class="text-muted small mb-4 doctor-description">
+                            doctor.Description
+                        </p>
+
+                        <a href="~/Doctor/book-appointment" class="btn btn-primary-custom w-200 py-2 rounded-3 text-white">
+                           Book Appointment
+                        </a>
+
+                        <a href="~/DoctorProfile" class="btn btn-primary-custom w-500 py-2 rounded-3 text-white">
+                            See More
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+

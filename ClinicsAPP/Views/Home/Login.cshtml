@@ -1,0 +1,100 @@
+﻿@page
+@{Layout="~/Views/Shared/_Layout.cshtml";}
+
+
+
+<link rel="stylesheet" asp-href-include="~/css/Stylelogin.css" />
+
+<link rel="stylesheet" href="~/css/bootstrap/bootstrap.min.css" />
+<link rel="stylesheet" href="~/css/StyleSheetLogin.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/StyleSheetLogin.css" asp-append-version="true" />
+<div class="container">
+    <main role="main" class="pb-3">
+       
+  
+
+<div class="c-login">
+
+    <!-- LEFT -->
+    <div class="login-container">
+
+        <h2>
+            <img src="~/Homeicon.jpg"
+                 alt="Logo"
+                 style="height:60px;width:60px;margin-right:10px;" />
+            Login
+        </h2>
+
+        <!-- INTRO -->
+        <div class="tx" id="tt">
+            <p class="text-size">
+                        Welcome to <span style="color:#0d6efd;">DocTime</span>  & Health Center
+            </p>
+            <p>
+                We are dedicated to providing exceptional healthcare services,
+                combining advanced medical technology with compassionate care.
+            </p>
+
+            
+        </div>
+
+        <!-- LOGIN FORM -->
+                <div class="in" id="loginForm" style="margin-top: 100px;" />
+
+            <div class="chbutton" id="roleButtons">
+                <button type="button" class="chbutton1">Doctor</button>
+                <button type="button" class="chbutton1">User</button>
+            </div>
+
+            <form method="post">
+
+                <div id="loginFields">
+                    <label for="email">Email</label>
+                    <input type="email"
+                           id="email"
+                           name="Email"
+                           required />
+
+                    <label for="password">Password</label>
+                    <input type="password"
+                           id="password"
+                           name="Password"
+                           required />
+
+                    <button type="submit" class="s-button">
+                        Login
+                    </button>
+                </div>
+
+                <p class="text-danger">
+                   aaaaaaaa
+                </p>
+
+                <div class="link">
+                    <p>Create an account?</p>
+                    <a href="#">Create</a>
+                </div>
+
+                <div class="link">
+                    <p>Did you forget your password?</p>
+                    <a href="#">Reset password</a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="login-image">
+        <img src="~/HIcon.jpg"
+             alt="img-login"
+             class="D-login" />
+    </div>
+
+</div>
+    </main>
+</div>
+
+@section Scripts {
+    <script src="~/js/JavaScript.js"></script>
+}

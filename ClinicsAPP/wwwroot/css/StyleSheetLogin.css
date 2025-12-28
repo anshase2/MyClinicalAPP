@@ -1,0 +1,120 @@
+﻿body {
+}    .login-container
+
+{
+    width: 700px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 0px solid #ddd;
+    border-radius: 8px;
+}
+
+.in {
+    width: 360px;
+    margin: 0px auto;
+    padding: 0px;
+    border: 0px solid #ddd;
+    border-radius: 8px;
+}
+
+
+input {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 8px;
+}
+
+.s-button {
+    width: 100%;
+    padding: 10px;
+    background: #0094ff;
+    color: black;
+    border: 2px;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.chbutton {
+    display: flex;
+    flex-direction: row;
+}
+
+    .chbutton button {
+        flex: 1;
+        margin: 0px,5px;
+        padding: 10px;
+        width: 178px;
+        background: #fff;
+        color: black;
+        border: 1px solid #00728f;
+        cursor: pointer;
+        border-radius: 5px;
+        /* outline: 3px solid rgba(26,163,163,0.3);
+            outline-offset: 3px;*/
+    }
+
+        .chbutton button.active {
+            background: #0094ff;
+            color: #fff;
+        }
+
+        .chbutton button:focus {
+            outline: 3px solid #0094ff;
+            outline-offset: 3px;
+        }
+
+
+
+.ch-button2 {
+    margin-top: 75px;
+    margin-right: 100px;
+    padding: 7px;
+    padding-left: 20px;
+    width: 178px;
+    background: white;
+    color: black;
+    border-radius: 30px;
+    border: 1px solid #00728f;
+}
+
+
+    .ch-button2:focus {
+        background: #0094ff;
+    }
+
+
+
+form {
+    left: 60px;
+}
+
+.D-login {
+    width: 600px;
+    height: 470px;
+}
+
+.c-login {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+
+
+.link {
+    display: flex;
+    gap: 10px;
+    font-size: 13px;
+}
+
+.text {
+    /* display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;*/
+}
+
+.text-size {
+    font-size: 38px;
+    font-weight: bold;
+}
+}

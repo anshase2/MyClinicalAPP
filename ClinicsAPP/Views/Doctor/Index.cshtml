@@ -2,7 +2,6 @@
 @using ClinicsAPP.Models
 @model List<Doctor>;
 
-
 <h2 class="my-4">Doctors List</h2>
 <!-- Search Box -->
 <form class="d-flex" method="get" asp-action="SearchDoctors">
@@ -25,20 +24,31 @@
                 <div class="card h-100" style="background-color: white; color:black;">
 
                     <div class="card-body">
-                        <h5 class="card-title">@doctor.FullName</h5>
+
+                        <h5 class="card-title">
+                            <img src="~/OIP.webp" alt="@doctor.FullName" style="width:80px; height:80px; border-radius:100%; margin-bottom:10px; object-fit:cover;">
+                            @doctor.FullName
+                        </h5>
                         <p class="card-text">Specalist: @doctor.Specalist </p>
                         <p class="card-text">Description: @doctor.Description</p>
-                       <a href="#" class="btn"
+                        <p class="card-text">
+                            Rating:
+                            <!-- Stars -->
+                            <span style="color:gold;">&#9733;&#9733;&#9733;&#9733;</span><span style="color:lightgray;">&#9733;</span>
+                            <!-- Numeric value -->
+                            4 of 5
+                        </p>
+                       <a href="~/DoctorProfile" class="btn"
                         style="
-                        background-color:#64b5f6;
-                        border-color:#64b5f6;
+                            background-color:#1e88e5;
+                            border-color:#1e88e5;
                         color:white;
                             font-weight:bold;
                         transition:0.2s;
                         "
                         onmouseover="this.style.backgroundColor='#42a5f5'"
                         onmouseout="this.style.backgroundColor='#64b5f6'">
-                        BOOK
+                        see more
                         </a>
                     </div>
                   

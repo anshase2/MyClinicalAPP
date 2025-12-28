@@ -1,0 +1,200 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Contact Us</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+       
+        body {
+            background-color: #f8f9fa;
+            padding-top: 20px;
+        }
+
+        .contact-section {
+            margin-bottom: 40px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* ظل خفيف للقسم */
+        }
+
+            .contact-section h2 {
+                color: #007bff; /* لون مميز للعناوين الرئيسية */
+                border-bottom: 3px solid #007bff;
+                padding-bottom: 10px;
+                margin-bottom: 25px;
+                font-weight: 600;
+            }
+
+        .contact-card {
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            display: flex; 
+            align-items: center; 
+        }
+
+            .contact-card:hover {
+                box-shadow: 0 0 10px rgba(0, 123, 255, 0.2);
+                transform: translateY(-2px);
+            }
+
+        .contact-info div {
+            padding: 5px 0;
+        }
+
+        .icon-flag {
+            font-size: 2.5rem;
+            margin-inline-end: 15px; /* مسافة بعد الأيقونة */
+            color: #dc3545; /* لون مختلف للأيقونات */
+        }
+        /* تصميم خاص للجدول ليكون شبيهاً بالصور المرفقة */
+        .custom-table {
+            border-collapse: separate;
+            border-spacing: 0 10px; /* مسافة بين الصفوف */
+            width: 100%;
+        }
+
+            .custom-table td {
+                background-color: #ffffff;
+                border: 1px solid #e9ecef;
+                padding: 15px;
+                font-size: 1rem;
+                line-height: 1.5;
+            }
+
+            .custom-table tr:first-child td:first-child {
+                border-top-left-radius: 6px;
+            }
+
+            .custom-table tr:last-child td:last-child {
+                border-bottom-right-radius: 6px;
+            }
+
+        .region-heading {
+            background-color: #e9ecef;
+            padding: 15px;
+            margin-top: 20px;
+            margin-bottom: 0;
+            border-radius: 6px 6px 0 0;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header class="text-center py-4">
+            <h1 class="display-4 text-primary">تواصل معنا - Contact Us 📞</h1>
+            <p class="lead">يسرنا تقديم الدعم والمساعدة عبر الهاتف في المناطق التالية:</p>
+        </header>
+
+        <div class="contact-section">
+            <h2 class="region-heading">🇺🇸🇨🇦 أمريكا الشمالية واللاتينية</h2>
+            <table class="custom-table">
+                <tr>
+                    <td class="col-4">
+                        <i class="fas fa-flag icon-flag" style="color:#007bff;"></i> <div class="d-inline-block">
+                            **شمال أمريكا** <br>
+                            <small class="text-muted">Sunday 6:00 p.m. to Friday 11:59 p.m.</small>
+                        </div>
+                    </td>
+                    <td class="col-4">Chicago</td>
+                    <td class="col-4 text-start">**+1 866 344 2088** (Toll Free)</td>
+                </tr>
+                <tr>
+                    <td class="col-4">
+                        <i class="fas fa-flag icon-flag" style="color:#28a745;"></i>
+                        <div class="d-inline-block">
+                            **جنوب أمريكا** <br>
+                            <small class="text-muted">Sunday 9:00 p.m. to Friday 11:59 p.m.</small>
+                        </div>
+                    </td>
+                    <td class="col-4">São Paulo</td>
+                    <td class="col-4 text-start">**+1 31 447 8070**</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="contact-section">
+            <h2 class="region-heading">🇪🇺🌍 أوروبا، الشرق الأوسط وأفريقيا</h2>
+            <table class="custom-table">
+                <tr>
+                    <td class="col-4">
+                        <i class="fas fa-flag-usa icon-flag"></i> <div class="d-inline-block">
+                            **المملكة المتحدة** <br>
+                            <small class="text-muted">Monday 8:00 a.m. to Friday 11:59 p.m.</small>
+                        </div>
+                    </td>
+                    <td class="col-4">London</td>
+                    <td class="col-4 text-start">**+44 0 186 584 3987**</td>
+                </tr>
+                <tr>
+                    <td class="col-4">
+                        <i class="fas fa-flag icon-flag" style="color:#ffc107;"></i>
+                        <div class="d-inline-block">
+                            **هولندا** <br>
+                            <small class="text-muted">Monday 8:00 a.m. to Friday 11:59 p.m.</small>
+                        </div>
+                    </td>
+                    <td class="col-4">Amsterdam</td>
+                    <td class="col-4 text-start">**+31 20 485 3767**</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="contact-section">
+            <h2 class="region-heading">🌏 آسيا والمحيط الهادئ</h2>
+            <table class="custom-table">
+                <tr>
+                    <td class="col-4">
+                        <i class="fas fa-flag icon-flag" style="color:#dc3545;"></i>
+                        <div class="d-inline-block">
+                            **سنغافورة** <br>
+                            <small class="text-muted">Monday 8:00 a.m. to Saturday 11:59 a.m.</small>
+                        </div>
+                    </td>
+                    <td class="col-4">Singapore</td>
+                    <td class="col-4 text-start">**+65 6349 0222**</td>
+                </tr>
+                <tr>
+                    <td class="col-4">
+                        <i class="fas fa-flag icon-flag" style="color:#007bff;"></i>
+                        <div class="d-inline-block">
+                            **أستراليا** <br>
+                            <small class="text-muted">Monday 8:00 a.m. to Saturday 11:59 a.m.</small>
+                        </div>
+                    </td>
+                    <td class="col-4">Sydney</td>
+                    <td class="col-4 text-start">**+61 1800 572139** (Toll Free)</td>
+                </tr>
+                <tr>
+                    <td class="col-4">
+                        <i class="fas fa-flag icon-flag" style="color:#6c757d;"></i>
+                        <div class="d-inline-block">
+                            **نيوزيلندا** <br>
+                            <small class="text-muted">Monday 8:00 a.m. to Saturday 11:59 a.m.</small>
+                        </div>
+                    </td>
+                    <td class="col-4">Wellington</td>
+                    <td class="col-4 text-start">**+64 800 170 166** (Toll Free)</td>
+                </tr>
+            </table>
+        </div>
+
+        <footer class="text-center py-3 mt-4 text-muted">
+            <p>جميع الأوقات بتوقيت المنطقة المحلية.</p>
+        </footer>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

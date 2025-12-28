@@ -1,0 +1,101 @@
+﻿/* Custom variables for the theme */
+:root {
+    --primary-blue: #1a88c5;
+    --text-dark-blue: #1a2b4b;
+    --bg-light-gray: #f8f9fa;
+    --card-border-radius: 1rem;
+}
+
+body {
+    background-color: #fcfdfe;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+}
+
+.text-primary-custom {
+    color: var(--primary-blue);
+}
+
+.btn-primary-custom {
+    background-color: var(--primary-blue);
+    border-color: var(--primary-blue);
+    transition: all 0.3s ease;
+}
+
+    .btn-primary-custom:hover {
+        background-color: #156d9e;
+        border-color: #156d9e;
+    }
+
+/* Search Card Styling */
+.search-card {
+    max-width: 1000px;
+    border: 1px solid #eef2f6 !important;
+}
+
+.form-label {
+    margin-bottom: 0.4rem;
+}
+
+.form-control, .form-select {
+    border-radius: 0.5rem;
+    font-size: 0.95rem;
+    color: #495057;
+}
+
+    .form-control::placeholder {
+        color: #adb5bd;
+    }
+
+/* Doctor Card Styling */
+.doctor-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 1px solid #f0f4f8 !important;
+}
+
+    .doctor-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.05) !important;
+    }
+
+.doctor-description {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.5;
+    height: 4.5em; /* Ensures consistent height for alignment */
+}
+
+.object-fit-cover {
+    object-fit: cover;
+}
+
+/* Custom styling for the "Use My Location" button */
+.btn-outline-secondary {
+    color: #6c757d;
+    border-color: #dee2e6;
+    background-color: #fff;
+    font-size: 0.85rem;
+}
+
+    .btn-outline-secondary:hover {
+        background-color: #f8f9fa;
+        color: #495057;
+        border-color: #ced4da;
+    }
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .search-card {
+        padding: 1.5rem !important;
+    }
+
+    .display-5 {
+        font-size: 2rem;
+    }
+
+    .results-section h3 {
+        font-size: 1.5rem;
+    }
+}
