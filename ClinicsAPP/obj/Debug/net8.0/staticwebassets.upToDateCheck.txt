@@ -1,4 +1,3 @@
-wwwroot\css\book-appointment.css
 wwwroot\css\bootstrap-grid.css
 wwwroot\css\bootstrap-grid.css.map
 wwwroot\css\bootstrap-grid.min.css
@@ -31,13 +30,6 @@ wwwroot\css\bootstrap.rtl.css
 wwwroot\css\bootstrap.rtl.css.map
 wwwroot\css\bootstrap.rtl.min.css
 wwwroot\css\bootstrap.rtl.min.css.map
-wwwroot\css\Login.css
-wwwroot\css\StyleSheetDocList.css
-wwwroot\css\StyleSheetDocProfile.css
-wwwroot\css\StyleSheetHome.css
-wwwroot\css\StyleSheetLogin.css
-wwwroot\HIcon.JPG
-wwwroot\Homeicon.jpg
 wwwroot\js\bootstrap.bundle.js
 wwwroot\js\bootstrap.bundle.js.map
 wwwroot\js\bootstrap.bundle.min.js
@@ -50,5 +42,13 @@ wwwroot\js\bootstrap.js
 wwwroot\js\bootstrap.js.map
 wwwroot\js\bootstrap.min.js
 wwwroot\js\bootstrap.min.js.map
-wwwroot\js\JavaScript.js
+wwwroot\Homeicon.jpg
 wwwroot\OIP.webp
+wwwroot\css\StyleSheetDocProfile.css
+wwwroot\js\JavaScript.js
+wwwroot\css\StyleSheetLogin.css
+wwwroot\css\StyleSheetDocList.css
+wwwroot\css\StyleSheetHome.css
+wwwroot\HIcon.JPG
+wwwroot\css\Login.css
+wwwroot\css\book-appointment.css

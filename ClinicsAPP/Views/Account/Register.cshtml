@@ -1,0 +1,213 @@
+﻿@using ClinicsAPP.DTO
+@using ClinicsAPP.Contracts
+@model RegisterDTO
+@{
+    ViewData["Title"] = "Register";
+}
+<link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css" />
+<link rel="stylesheet" asp-href-include="~/css/Stylelogin.css" />
+
+<link rel="stylesheet" href="~/css/bootstrap.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">*/
+@*<link rel="stylesheet" href="~/css/bootstrap/bootstrap.min.css" />
+<link rel="stylesheet" href="~/css/StyleSheetLogin.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/StyleSheetLogin.css" asp-append-version="true" />*@
+<div class="container">
+
+
+
+<div class="register-container d-flex flex-column align-items-center justify-content-center min-vh-100 py-5">
+    <!-- Logo -->
+    <div class="text-center mb-4">
+        <img src="~/Homeicon.jpg" alt="DocTime Logo" style="height: 50px;" onerror="this.src='https://via.placeholder.com/50x50?text=DocTime'">
+        <h2 class="mt-3 fw-bold text-dark">Create an Account</h2>
+        <p class="text-muted">Join us to get started with your journey</p>
+    </div>
+
+    <!-- Register Card -->
+    <div class="card shadow-sm border-0 rounded-4 p-4" style="max-width: 500px; width: 100%; background-color: #f8f9fa;">
+        <div class="card-body">
+            <h4 class="fw-bold mb-1">Sign Up</h4>
+            <p class="text-muted small mb-4">Enter your details to create your account</p>
+
+            <form asp-action="Register" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
+
+                <div class="row g-3">
+                    <!-- First Name & Last Name -->
+                    <div class="col-md-6">
+                        <label asp-for="FirstName" class="form-label small fw-semibold">First Name</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-white border-end-0"><i class="bi bi-person"></i></span>
+                            <input asp-for="FirstName" class="form-control border-start-0 ps-0" placeholder="First Name" />
+                        </div>
+                        <span asp-validation-for="FirstName" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="LastName" class="form-label small fw-semibold">Last Name</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-white border-end-0"><i class="bi bi-person"></i></span>
+                            <input asp-for="LastName" class="form-control border-start-0 ps-0" placeholder="Last Name" />
+                        </div>
+                        <span asp-validation-for="LastName" class="text-danger small"></span>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="col-12">
+                        <label asp-for="Email" class="form-label small fw-semibold">Email</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-white border-end-0"><i class="bi bi-envelope"></i></span>
+                            <input asp-for="Email" class="form-control border-start-0 ps-0" placeholder="john@example.com" />
+                        </div>
+                        <span asp-validation-for="Email" class="text-danger small"></span>
+                    </div>
+
+                    <!-- Phone -->
+                    <div class="col-12">
+                        <label asp-for="Phone" class="form-label small fw-semibold">Phone</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-white border-end-0"><i class="bi bi-telephone"></i></span>
+                            <input asp-for="Phone" class="form-control border-start-0 ps-0" placeholder="Enter your phone number" />
+                        </div>
+                        <span asp-validation-for="Phone" class="text-danger small"></span>
+                    </div>
+
+                    <!-- Gender & Date of Birth -->
+                    <div class="col-md-6">
+                        <label asp-for="Gender" class="form-label small fw-semibold">Gender</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-white border-end-0"><i class="bi bi-gender-ambiguous"></i></span>
+                            <select asp-for="Gender" class="form-select border-start-0 ps-0">
+                                <option value="">Select Gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <span asp-validation-for="Gender" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="DateOfBirth" class="form-label small fw-semibold">Date of Birth</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-white border-end-0"><i class="bi bi-calendar-event"></i></span>
+                            <input asp-for="DateOfBirth" type="date" class="form-control border-start-0 ps-0" />
+                        </div>
+                        <span asp-validation-for="DateOfBirth" class="text-danger small"></span>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="col-12">
+                        <label asp-for="Password" class="form-label small fw-semibold">Password</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-white border-end-0"><i class="bi bi-lock"></i></span>
+                            <input asp-for="Password" type="password" class="form-control border-start-0 ps-0" placeholder="Enter your password" />
+                        </div>
+                        <span asp-validation-for="Password" class="text-danger small"></span>
+                    </div>
+
+                    <!-- Confirm Password -->
+                    <div class="col-12">
+                        <label asp-for="ConfirmPassword" class="form-label small fw-semibold">Confirm Password</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-white border-end-0"><i class="bi bi-lock-fill"></i></span>
+                            <input asp-for="ConfirmPassword" type="password" class="form-control border-start-0 ps-0" placeholder="Confirm your password" />
+                        </div>
+                        <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+                            <div class="mb-3">
+                                <label class="form-label aria-">Select Role</label>
+
+                                @foreach (var role in Enum.GetValues(typeof(UserTypeOptions)))
+                                {
+                                    var roleName = role.ToString();
+
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input"
+                                               type="radio"
+                                               asp-for="Role"
+                                               value="@roleName"
+                                               id="@roleName" />
+
+                                        <label class="form-check-label"
+                                               for="@roleName"
+                                               style="cursor:pointer;">
+                                            @roleName
+                                        </label>
+                                    </div>
+                                }
+
+                                <span asp-validation-for="Role" class="text-danger"></span>
+                            </div>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-primary w-100 py-2 fw-bold" style="background-color: #2b95c9; border-color: #2b95c9;">Register</button>
+                    @* Validation Summary بدون Tag Helper *@
+                    @Html.ValidationSummary(true, "", new { @class = "text-red" })
+
+                    @if (ViewBag.Errors != null)
+                    {
+                        <div class="text-red ml">
+                            <ul>
+                                @foreach (string error in ViewBag.Errors)
+                                {
+                                    <li class="ml">@error</li>
+                                }
+                            </ul>
+                        </div>
+                    }
+                        
+                </div>
+            </form>
+
+            <div class="text-center mt-4">
+                <p class="text-muted small">Already have an account? <a asp-action="Login" class="text-decoration-none fw-bold" style="color: #2b95c9;">Login</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="mt-5 text-muted small">
+        Made with <span class="text-danger">❤</span> by DocTime
+    </div>
+</div>
+
+@section Styles {
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        body {
+            background-color: #fcfcfc;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .register-container {
+            background: radial-gradient(circle at top right, #f0f7ff 0%, #ffffff 100%);
+        }
+
+        .card {
+            border: 1px solid #eef2f6 !important;
+        }
+
+        .input-group-text {
+            color: #6c757d;
+            font-size: 1.1rem;
+        }
+
+        .form-control:focus, .form-select:focus {
+            box-shadow: none;
+            border-color: #2b95c9;
+        }
+
+        .form-control::placeholder {
+            color: #adb5bd;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary:hover {
+            background-color: #237da9 !important;
+            border-color: #237da9 !important;
+        }
+    </style>
+}

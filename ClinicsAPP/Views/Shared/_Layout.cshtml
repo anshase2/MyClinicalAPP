@@ -45,8 +45,29 @@
                           
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="~/Home/Login" class="btn"
+                    @if (User.Identity.IsAuthenticated)
+                    {                         
+                        @(User.FindFirst("FirstName")?.Value + " " + User.FindFirst("LastName")?.Value)
+
+                        <li class="nav-item">
+                            <a href="~/Account/Logout" class="btn"
+                               style="
+         background-color:#0d6efd;
+         border-color:#0d6efd;
+     color:white;
+         font-weight:bold;
+     transition:0.2s;
+     "
+                               onmouseover="this.style.backgroundColor='#42a5f5'"
+                               onmouseout="this.style.backgroundColor='#64b5f6'">
+                                Logout
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a href="~/Account/Login" class="btn"
                            style="
      background-color:#0d6efd;
      border-color:#0d6efd;
@@ -58,7 +79,7 @@
                            onmouseout="this.style.backgroundColor='#64b5f6'">
                             Login
                         </a>
-                    </li>
+                    </li>}
                     </ul>
                 </div>
             </div>

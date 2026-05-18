@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Razor.Compilation;
 
 namespace ClinicsAPP.Controllers
 {
+   //Ex: [Authorize(Roles ="Doctor")]
     public class HomeController : Controller
     {
         [HttpGet("/")]
@@ -21,7 +24,7 @@ namespace ClinicsAPP.Controllers
         {
             ViewBag.Title = "Login";
 
-            return View();
+            return View("~/Views/Account/Login1.cshtml");
         }
     }
 }
