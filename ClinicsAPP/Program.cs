@@ -2,6 +2,7 @@ using ClinicsAPP.Contracts;
 using ClinicsAPP.Data;
 using ClinicsAPP.Models.IdentityModels;
 using ClinicsAPP.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -24,8 +25,11 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 */
-
+builder.Services.AddScoped<DoctorService>();
 //Enable Identity in this project
+builder.Services.AddScoped<IFeedbackService, FeedbackService>();
+
+builder.Services.AddScoped<IPatientService, PatientService>();
 builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
 {
     options.Password.RequiredLength = 5;
@@ -44,6 +48,14 @@ builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
  .AddRoleStore<RoleStore<ApplicationRole, ApplicationDbContext, Guid>>();
 
 
+/*builder.Services.AddAuthorization(options =>
+{
+    options.FallbackPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build(); //enforces authoriation policy (user must be authenticated) for all the action methods
+});
+
+builder.Services.ConfigureApplicationCookie(options => {
+    options.LoginPath = "/Account/Login";
+});*/
 builder.Services.AddScoped<IAppointmentService, AppointmentService>();
 builder.Services.AddScoped<IFeedbackService, FeedbackService>();
 

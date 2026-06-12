@@ -1,4 +1,4 @@
-﻿using ClinicsAPP.DTO;
+using ClinicsAPP.DTO;
 using ClinicsAPP.Models;
 using ClinicsAPP.Data;
 using Microsoft.EntityFrameworkCore;
@@ -34,12 +34,12 @@ namespace ClinicsAPP.Services
 
         public async Task<DoctorResponseDTO?> CreateDoctorAsync(DoctorRequestDTO dto)
         {
-            if (dto.Specalist == null || dto.Location == null||dto.FullName==null)
+            if (dto.Specalist == null ||dto.FullName==null)
                 return null;
             var doctor = new Doctor
             {
-                DoctorId = Guid.NewGuid(),
-                UserId = dto.userid,
+               
+                UserId = dto.UserId,
                 //doctor.user=getuserbyuserid(userid);
                 FullName = dto.FullName,
                 Specalist = dto.Specalist,
@@ -62,23 +62,42 @@ namespace ClinicsAPP.Services
 
         public async Task<List<DoctorResponseDTO?>> GetAllDoctorsAsync()
         {
-            var doctors = await _context.Doctors.ToListAsync();
-                //Where(d => d.IsApproved).
-            
+            /*  var doctors = await _context.Doctors.Include(d => d.User).ToListAsync();
+                  //Where(d => d.IsApproved).
 
 
-            return doctors.Select(d =>d.ToDoctorResponseDTO()).ToList();
+
+              return doctors.Select(d =>d.ToDoctorResponseDTO()).ToList();*/
+            var doctors = await _context.Doctors
+         .Include(d => d.User)
+         .ToListAsync();
+
+            var result = new List<DoctorResponseDTO?>();
+
+            foreach (var doctor in doctors)
+            {
+                var avgRating = await _context.Feedbacks
+                    .Where(f => f.DoctorId == doctor.DoctorId)
+                    .AverageAsync(f => (double?)f.Rating) ?? 0;
+
+                result.Add(doctor.ToDoctorResponseDTO(Math.Round(avgRating, 1)));
+            }
+
+            return result;
         }
 
-        public async Task<DoctorResponseDTO?> GetDoctorByIdAsync(Guid id)
+        public async Task<DoctorResponseDTO?> GetDoctorByIdAsync(int id)
         {
 
-            var doctor = await _context.Doctors.FindAsync(id);
-
+            var doctor = await _context.Doctors
+                   .Include(d => d.User)
+                   
+                   .FirstOrDefaultAsync(d => d.DoctorId == id);
+           
             return doctor == null ? null :doctor.ToDoctorResponseDTO();
         }
 
-        public async Task<DoctorResponseDTO?> UpdateDoctorAsync(Guid Doctorid, DoctorRequestUpdated dto)
+        public async Task<DoctorResponseDTO?> UpdateDoctorAsync(int Doctorid, DoctorRequestUpdated dto)
         {
            // var doctor = await _context.Doctors.FindAsync(id);
             var doctor = await _context.Doctors.FindAsync(Doctorid);
@@ -96,14 +115,14 @@ namespace ClinicsAPP.Services
             doctor.ImageUrl = dto.ImageUrl;
             doctor.Rating=dto.Rating;
             doctor.ReviewCount = dto.ReviewCount;
-            doctor.IsAvailable = dto.IsAvailable;
+           // doctor.IsAvailable = dto.IsAvailable;
 
             await _context.SaveChangesAsync();
 
             return doctor.ToDoctorResponseDTO();
         }
 
-        public async Task<bool> DeleteDoctorAsync(Guid id)
+        public async Task<bool> DeleteDoctorAsync(int id)
         {
             var doctor = await _context.Doctors.FindAsync(id);
 
@@ -154,5 +173,19 @@ namespace ClinicsAPP.Services
         //public async Task<bool> GetDoctorAppointmentAsync(Guid id)
 
 
-           }
+        public async Task<DoctorResponseDTO?> GetDoctorByUserId(Guid userId)
+        {
+            var doctor = await _context.Doctors
+                .Include(d => d.User)
+                .FirstOrDefaultAsync(d => d.UserId == userId);
+
+            if (doctor == null) return null;
+
+            var avgRating = await _context.Feedbacks
+                .Where(f => f.DoctorId == doctor.DoctorId)
+                .AverageAsync(f => (double?)f.Rating) ?? 0;
+
+            return doctor.ToDoctorResponseDTO(Math.Round(avgRating, 1));
+        }
+    }
 }

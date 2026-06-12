@@ -25,8 +25,10 @@ namespace ClinicsAPP.DTO
 
 
             [Required(ErrorMessage = "Phone can't be blank")]
-            [RegularExpression("^[0-9]*$", ErrorMessage = "Phone number should contain numbers only")]
-            [DataType(DataType.PhoneNumber)]
+         [RegularExpression(@"^(?:\+9627[789]\d{7}|07[789]\d{7})$", ErrorMessage = "Invalid phone number")]
+
+        // [RegularExpression("^[0-9]*$", ErrorMessage = "Phone number should contain numbers only")]
+        [DataType(DataType.PhoneNumber)]
             public string Phone { get; set; }
 
 
@@ -40,6 +42,8 @@ namespace ClinicsAPP.DTO
             [Compare(nameof(Password), ErrorMessage = "Password and confirmation do not match.")]
             public string ConfirmPassword { get; set; } = string.Empty;
         public UserTypeOptions Role { get; set; }
+        public DoctorRegistercs? Doctor { get; set; } 
+
     }
-    }
+}
 

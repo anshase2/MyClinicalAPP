@@ -1,0 +1,157 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using ClinicsAPP.DTO
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model PatientDetailsResponseDTO
+
+@{
+    ViewData["Title"] = "Patient Profile";
+    var completedAppointmentsCount = Model.Appointments.Count(a => a.AppointmentDate < DateTime.Now); // Assuming past dates are completed
+    var futureAppointments = Model.Appointments.Where(a => a.AppointmentDate >= DateTime.Now).OrderBy(a => a.AppointmentDate).ToList();
+    var pastAppointments = Model.Appointments.Where(a => a.AppointmentDate < DateTime.Now).OrderByDescending(a => a.AppointmentDate).ToList();
+}
+<link rel="stylesheet" href="~/css/bootstrap.css" />
+<link rel="stylesheet" href="~/css/StyleSheetDocProfile.css" />
+
+<div class="profile-page">
+
+    <div class="profile-grid">
+
+        <!-- LEFT: Patient Card -->
+        <div class="profile-card">
+            <div class="profile-head">
+                <img src="~/OIP.webp" class="doctor-img" alt="Patient" />
+
+                <div class="profile-meta">
+                    <h2>@Model.FullName</h2>
+                    <div class="location">📍 Amman, Jordan</div> @* Placeholder location as requested to be viewed *@
+
+                    <div class="badges">
+                        <span class="badge">🆔 ID: @Model.PatientId</span>
+                        <span class="badge">👤 @Model.Gender</span>
+                    </div>
+                </div>
+            </div>
+
+            @* BOOK button and Rating area removed as requested *@
+        </div>
+
+        <!-- RIGHT: Details -->
+        <div class="profile-details">
+
+            @* Review box removed as requested *@
+
+            <div class="tabs">
+                <button class="tab-btn active" onclick="openTab(event, 'About')">About</button>
+                <button class="tab-btn" onclick="openTab(event, 'FutureVisits')">Future Visits</button>
+                <button class="tab-btn" onclick="openTab(event, 'PastVisits')">Past Visits</button>
+            </div>
+
+            <div id="About" class="tab-content active">
+                <h3>Patient Information</h3>
+                <p>
+                    General patient profile information and medical history overview.
+                </p>
+
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-title">Date of Birth</div>
+                        <div class="info-value">@(Model.DateOfBirth?.ToString("dd MMM yyyy") ?? "18/5/2004")</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-title">Location</div>
+                        <div class="info-value">Amman, Jordan</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-title">Completed Appointments</div>
+                        <div class="info-value">@completedAppointmentsCount</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="FutureVisits" class="tab-content" style="display:none;">
+                <h3>Upcoming Appointments</h3>
+                @if (futureAppointments.Any())
+                {
+                    <div class="visit-list">
+                        @foreach (var app in futureAppointments)
+                        {
+                            <div class="info-item" style="margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px;">
+                                <div class="info-title">@app.AppointmentDate.ToString("f")</div>
+                                <div class="info-value">Doctor: @app.DoctorName</div> @* Assuming DoctorName exists in AppointmentResponseDTO *@
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <p>No upcoming visits scheduled.</p>
+                }
+            </div>
+
+            <div id="PastVisits" class="tab-content" style="display:none;">
+                <h3>Medical History / Past Visits</h3>
+                @if (pastAppointments.Any())
+                {
+                    <div class="visit-list">
+                        @foreach (var app in pastAppointments)
+                        {
+                            <div class="info-item" style="margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px;">
+                                <div class="info-title">@app.AppointmentDate.ToString("f")</div>
+                                <div class="info-value">Doctor: @app.DoctorName</div>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <p>No past visits recorded.</p>
+                }
+            </div>
+
+
+            @if (TempData["SuccessMessage"] is string msg)
+            {
+                <div id="toast" class="alert alert-success">
+                    @msg
+                </div>
+            }
+        </div>
+    </div>
+
+</div>
+
+<script>
+    function openTab(evt, tabName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tab-content");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+            tabcontent[i].classList.remove("active");
+        }
+        tablinks = document.getElementsByClassName("tab-btn");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].classList.remove("active");
+        }
+        document.getElementById(tabName).style.display = "block";
+        document.getElementById(tabName).classList.add("active");
+        evt.currentTarget.classList.add("active");
+    }
+
+
+
+    
+
+
+     // Show toast if present
+        window.onload = function () {
+            var toast = document.getElementById("toast");
+            if (toast) {
+                setTimeout(function () {
+                    toast.style.display = "none";
+                }, 3000);
+            }
+        };
+
+</script>

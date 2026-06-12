@@ -21,11 +21,12 @@ namespace ClinicsAPP.DTO
   public string? Location { get; set; }
         public string? Description { set; get; }
 
-        public decimal Price { get; set; }
+        public decimal? Price { get; set; }
        // [RegularExpression(@"^\+9627[789]\d{7}$", ErrorMessage = "Invalid phone number")]
      //   public string? Phone { get; set; }
         public string? ImageUrl { get; set; }
-        public Guid userid { get; set; }
+        public Guid UserId { get; set; }
+       
        
 
     }

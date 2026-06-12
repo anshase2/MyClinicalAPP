@@ -10,6 +10,5 @@ namespace ClinicsAPP.Models.IdentityModels
         public DateTime? DateOfBirth { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-       // public ICollection<Doctor> Doctors { get; set; } = new List<Doctor>();
     }
 }

@@ -6,7 +6,7 @@ namespace ClinicsAPP.Models
     public class Doctor
     {
         [Key]
-        public Guid DoctorId { get; set; }
+        public int DoctorId { get; set; }
         public string? FullName { set; get; }
         public string? Specalist { set; get; }
         public string? Description { set; get; }
@@ -21,11 +21,11 @@ namespace ClinicsAPP.Models
 
         public decimal? Price { get; set; }
         public string? ImageUrl { get; set; }
-       // public bool IsApproved { get; set; }
-        public bool? IsAvailable { get; set; }
+        // public bool IsApproved { get; set; }
+        public bool IsAvailable { get; set; } = true;
 
         public ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
-        public ICollection<Feedback> Feedbacks { get; set; } = new List<Feedback>();
+       public ICollection<Feedback> Feedbacks { get; set; } = new List<Feedback>();
 
     }
 }

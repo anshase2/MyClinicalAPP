@@ -8,10 +8,10 @@ namespace ClinicsAPP.DTO
         public int PatientId { get; set; }
 
         [Required]
-        public Guid DoctorId { get; set; }
+        public int DoctorId { get; set; }
 
-        [Required]
-        public Guid AppointmentId { get; set; }
+        /* [Required]
+         public int AppointmentId { get; set; }?*/  
 
         [Required]
         [Range(1, 5)]

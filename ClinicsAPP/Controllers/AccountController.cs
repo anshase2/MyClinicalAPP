@@ -1,8 +1,14 @@
-﻿using ClinicsAPP.DTO;
+using ClinicsAPP.DTO;
+using ClinicsAPP.Models;
 using ClinicsAPP.Models.IdentityModels;
+using ClinicsAPP.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using ClinicsAPP.Contracts;
+
+
 
 namespace ClinicsAPP.Controllers
 {
@@ -12,15 +18,22 @@ namespace ClinicsAPP.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
+        private readonly DoctorService _doctorService;
+        private readonly IPatientService _PatientService;
 
 
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<ApplicationRole> roleManager)
+
+
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<ApplicationRole> roleManager, DoctorService doctorService, IPatientService patientService)
 
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
+            _doctorService = doctorService;
+            _PatientService = patientService;
+
         }
 
         [HttpGet]
@@ -32,6 +45,24 @@ namespace ClinicsAPP.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterDTO registerDTO)
         {
+            if (registerDTO.Role == Contracts.UserTypeOptions.Doctor)
+            {
+                if (registerDTO.Doctor == null)
+                {
+                    ModelState.AddModelError("", "Doctor data is required.");
+                }
+                else
+                {
+                    if (!registerDTO.Doctor.Price.HasValue)
+                        ModelState.AddModelError("Doctor.Price", "Price is required");
+
+                    if (string.IsNullOrEmpty(registerDTO.Doctor.Specalist))
+                        ModelState.AddModelError("Doctor.Specalist", "Specialty is required");
+
+                    if (string.IsNullOrEmpty(registerDTO.Doctor.Location))
+                        ModelState.AddModelError("Doctor.Location", "Location is required");
+                }
+            }
             if (!ModelState.IsValid)
             {
                 ViewBag.Errors = ModelState.Values.SelectMany(temp => temp.Errors).Select(temp => temp.ErrorMessage);
@@ -43,6 +74,7 @@ namespace ClinicsAPP.Controllers
                 ModelState.AddModelError(nameof(registerDTO.ConfirmPassword), "Password and confirmation do not match.");
                 return View(registerDTO);
             }
+           
 
             var user = new ApplicationUser
             {
@@ -59,9 +91,11 @@ namespace ClinicsAPP.Controllers
             
 
             IdentityResult result = await _userManager.CreateAsync(user, registerDTO.Password);
+            
             if (result.Succeeded)
             {
                 string role = registerDTO.Role.ToString();
+                
 
                 // تأكد أن role موجود
                 if (!await _roleManager.RoleExistsAsync(role))
@@ -71,11 +105,37 @@ namespace ClinicsAPP.Controllers
 
                 // إضافة المستخدم للـ role
                 await _userManager.AddToRoleAsync(user, role);
+                if (role == "Doctor")
+                {
+                    var Doctor = new DoctorRequestDTO
+                    {
 
+                        FullName = registerDTO.FirstName + " " + registerDTO.LastName,
+                        Location = registerDTO.Doctor.Location,
+                        Price = registerDTO.Doctor.Price,
+                        ImageUrl = "",
+                        Specalist = registerDTO.Doctor.Specalist,
+                        UserId = user.Id
+                    };
+                    await _doctorService.CreateDoctorAsync(Doctor);
+
+                }
+                else if (role == "Patient") {
+                    var patient = new PatientRequestDTO { FullName = registerDTO.FirstName + " " + registerDTO.LastName ,UserId =user.Id};
+
+                    await _PatientService.CreatePatient(patient);
+
+
+
+                }
                 await _signInManager.SignInAsync(user, isPersistent: false);
 
-                await _userManager.AddClaimAsync(user, new Claim("FirstName", user.FirstName));
-                await _userManager.AddClaimAsync(user, new Claim("LastName", user.LastName));
+                await _userManager.AddClaimAsync(
+     user,
+     new Claim("FullName", $"{user.FirstName} {user.LastName}")
+ );
+
+                await _signInManager.RefreshSignInAsync(user);
                 return RedirectToAction(nameof(HomeController.Home), "Home");
             }
 
@@ -83,6 +143,8 @@ namespace ClinicsAPP.Controllers
             {
                 ModelState.AddModelError("Register", error.Description);
             }
+
+           
 
             return View(registerDTO);
         }
@@ -94,7 +156,7 @@ namespace ClinicsAPP.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginDTO loginDTO,string ReturnUrl)
+        public async Task<IActionResult> Login(LoginDTO loginDTO,string? ReturnUrl)
         {
             if (!ModelState.IsValid)
             {

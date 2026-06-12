@@ -4,7 +4,7 @@ namespace ClinicsAPP.DTO
 {
     public class LoginDTO
     {
-        [Required(ErrorMessage = "Email Or username cant't be blank")]
+        [Required(ErrorMessage = "Email cant't be blank")]
        [EmailAddress(ErrorMessage = "Email should be in a proper email address format")]
         [DataType(DataType.EmailAddress)]
         public string? Email { get; set; }

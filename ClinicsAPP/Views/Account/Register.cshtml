@@ -1,6 +1,7 @@
 ﻿@using ClinicsAPP.DTO
 @using ClinicsAPP.Contracts
 @model RegisterDTO
+
 @{
     ViewData["Title"] = "Register";
 }
@@ -114,8 +115,8 @@
                             <input asp-for="ConfirmPassword" type="password" class="form-control border-start-0 ps-0" placeholder="Confirm your password" />
                         </div>
                         <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
-                            <div class="mb-3">
-                                <label class="form-label aria-">Select Role</label>
+                        @*    <div class="mb-3">
+                               <label class="form-label aria-">Select Role</label>
 
                                 @foreach (var role in Enum.GetValues(typeof(UserTypeOptions)))
                                 {
@@ -137,6 +138,41 @@
                                 }
 
                                 <span asp-validation-for="Role" class="text-danger"></span>
+                            </div>*@
+                            <!-- Role Section -->
+                            <div class="mb-3">
+                                <label class="form-label">Select Role</label>
+
+                                @foreach (var role in Enum.GetValues(typeof(UserTypeOptions)))
+                                {
+                                    var roleName = role.ToString();
+
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input"
+                                               type="radio"
+                                               asp-for="Role"
+                                               value="@roleName"
+                                               id="@roleName" />
+
+                                        <label class="form-check-label" for="@roleName">
+                                            @roleName
+                                        </label>
+                                    </div>
+                                }
+
+                                <span asp-validation-for="Role" class="text-danger"></span>
+                            </div>
+
+                            <div id="doctorSection" style="display:none;" class="border p-3 mt-3">
+
+                                <h5>Doctor Information</h5>
+
+                            
+                                <input class="form-control mb-2" asp-for="Doctor.Specalist" placeholder="Specialty" />
+                                <input class="form-control mb-2" asp-for="Doctor.Location" placeholder="Location" />
+                                <input class="form-control mb-2" asp-for="Doctor.Price" placeholder="Price" />
+                                <input class="form-control mb-2" asp-for="Doctor.Description" placeholder="Description" />
+
                             </div>
                     </div>
                 </div>
@@ -211,3 +247,25 @@
         }
     </style>
 }
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const radios = document.querySelectorAll("input[name='Role']");
+            const doctorSection = document.getElementById("doctorSection");
+
+            radios.forEach(radio => {
+                radio.addEventListener("change", function () {
+
+                    if (this.value === "Doctor") {
+                        doctorSection.style.display = "block";
+                    } else {
+                        doctorSection.style.display = "none";
+
+                        doctorSection.querySelectorAll("input").forEach(i => i.value = "");
+                    }
+
+                });
+            });
+
+        });
+    </script>

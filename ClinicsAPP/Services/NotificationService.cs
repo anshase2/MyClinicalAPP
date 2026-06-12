@@ -13,7 +13,7 @@ namespace ClinicsAPP.Services
             _context = context;
         }
 
-        public async Task SendAsync(string userId, string title, string message, string type, int? relatedId = null)
+        public async Task SendAsync(Guid userId, string title, string message, string type, int? relatedId = null)
         {
             var notification = new Notification
             {
@@ -28,7 +28,7 @@ namespace ClinicsAPP.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Notification>> GetUserNotificationsAsync(string userId)
+        public async Task<List<Notification>> GetUserNotificationsAsync(Guid userId)
         {
             return await _context.Notifications
                 .Where(n => n.UserId == userId)

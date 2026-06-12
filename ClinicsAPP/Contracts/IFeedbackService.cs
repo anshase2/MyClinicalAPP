@@ -4,6 +4,8 @@ namespace ClinicsAPP.Contracts
 {
     public interface IFeedbackService
     {
-        Task<FeedbackResponseDTO> AddFeedbackAsync(int patientId, Guid doctorId, Guid appointmentId, int rating, string? comment, CancellationToken cancellationToken = default);
+        Task<FeedbackResponseDTO> AddFeedbackAsync(AddFeedbackRequestDTO request, CancellationToken cancellationToken = default);
+        Task<IEnumerable<FeedbackResponseDTO>> GetDoctorFeedbacksAsync(int doctorId, CancellationToken cancellationToken = default);
+        Task<double> GetDoctorAverageRatingAsync(int doctorId, CancellationToken cancellationToken = default);
     }
 }

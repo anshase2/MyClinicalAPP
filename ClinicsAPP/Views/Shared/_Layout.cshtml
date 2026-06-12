@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using ClinicsAPP.Models;
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -7,7 +9,7 @@
     <link rel="stylesheet" href="~/css/bootstrap.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </head>
 <body>
@@ -37,17 +39,137 @@
                             <a class="nav-link text-dark" href="/Home/ContactUs">Contact</a>
                         </li>
                     <!-- أيقونة الإشعارات -->
-                    <li class="nav-item">
-                        <a class="nav-link position-relative text-dark" href="#">
+
+
+
+                    <li class="nav-item dropdown">
+
+                        <a class="nav-link position-relative text-dark"
+                           href="#"
+                           role="button"
+                           data-bs-toggle="dropdown"
+                           aria-expanded="false">
+
                             <i class="bi bi-bell" style="font-size: 1rem;"></i>
 
-                            <!-- دائرة صغيرة للإشعارات الجديدة -->
-                          
+                            <!-- badge للإشعارات -->
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                3
+                            </span>
                         </a>
+
+                        <ul class="dropdown-menu dropdown-menu-end" style="width: 300px;">
+
+                            <li class="dropdown-header">
+                                Notifications
+                            </li>
+
+                            <li><hr class="dropdown-divider"></li>
+
+                            <!-- مثال إشعار -->
+                            <li>
+                                <a class="dropdown-item small" href="#">
+                                    New appointment booked
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item small" href="#">
+                                    Profile updated successfully
+                                </a>
+                            </li>
+
+                        </ul>
+
                     </li>
+
+
+                    
                     @if (User.Identity.IsAuthenticated)
-                    {                         
-                        @(User.FindFirst("FirstName")?.Value + " " + User.FindFirst("LastName")?.Value)
+                    {
+                        <li class="nav-item">
+                        <li class="nav-item dropdown">
+
+                            <a class="nav-link dropdown-toggle" href="#" role="button"
+                               data-bs-toggle="dropdown" aria-expanded="false">
+
+                                @User.Identity.Name
+                            </a>
+
+                            <ul class="dropdown-menu dropdown-menu-end">
+
+                                <li class="px-3 py-2">
+                                    <small class="text-muted">
+                                        @User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value
+                                    </small>
+                                </li>
+
+                                <li><hr class="dropdown-divider"></li>
+
+                                <li class="px-3">
+                                    <span class="badge bg-primary">
+                                        @(User.IsInRole("Doctor") ? "Doctor" : "Patient")
+                                    </span>
+                                </li>
+
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    @if (User.IsInRole("Doctor"))
+                                    {
+                                        <a class="dropdown-item cursor-pointer"
+                                        href="~/MyDoctorProfile">
+                                           @*asp-controller="Doctor"
+                                           asp-action="MyDoctorProfile">*@
+                                            My Profile    
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a class="dropdown-item cursor-pointer"
+                                           asp-controller="Patient"
+                                           asp-action="MyProfile">
+                                            My Profile
+                                        </a>
+                                    }
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a class="dropdown-item cursor-pointer"
+                                       asp-controller="Home"
+                                       asp-action="MyAppointments">
+                                        My Appointments
+                                    </a>
+                                  @* @if (User.IsInRole("Doctor"))
+                                    {
+                                        <a class="dropdown-item cursor-pointer"
+                                           asp-controller="DoctorAppointment"
+                                           asp-action="Index">
+                                            My Appointments
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a class="dropdown-item cursor-pointer"
+                                           asp-controller="PatientAppointment"
+                                           asp-action="Index">
+                                            My Appointments
+                                        </a>
+                                    }*@ 
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+
+                                <li>
+                                    <form asp-controller="Account" asp-action="Logout" method="post">
+                                        <button class="dropdown-item text-danger" type="submit">
+                                            Logout
+                                        </button>
+                                    </form>
+                                </li>
+
+                            </ul>
+
+                        </li>
+                        </li>
 
                         <li class="nav-item">
                             <a href="~/Account/Logout" class="btn"
