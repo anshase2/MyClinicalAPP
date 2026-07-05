@@ -9,10 +9,12 @@ namespace ClinicsAPP.Services
     public class FeedbackService :IFeedbackService
     {
         private readonly ApplicationDbContext _context;
+        private readonly INotificationService _notificationService;
 
-        public FeedbackService(ApplicationDbContext context)
+        public FeedbackService(ApplicationDbContext context, INotificationService notificationService)
         {
             _context = context;
+            _notificationService = notificationService;
         }
 
        public async Task<FeedbackResponseDTO> AddFeedbackAsync(AddFeedbackRequestDTO request, CancellationToken cancellationToken = default)
@@ -21,7 +23,8 @@ namespace ClinicsAPP.Services
                 .AsNoTracking()
                 .FirstOrDefaultAsync(a => a.Id == request.AppointmentId, cancellationToken);*/
             var appointmentCount = await _context.Appointments
-    .CountAsync(a => a.PatientId == request.PatientId && a.DoctorId == request.DoctorId);
+    .CountAsync(a => a.PatientId == request.PatientId && a.DoctorId == request.DoctorId && a.Status == "Accepted" &&
+        a.AppointmentDate < DateTime.UtcNow);
 
             var feedbackCount = await _context.Feedbacks
                 .CountAsync(f => f.PatientId == request.PatientId && f.DoctorId == request.DoctorId);
@@ -53,6 +56,8 @@ namespace ClinicsAPP.Services
 
             _context.Feedbacks.Add(feedback);
             await _context.SaveChangesAsync(cancellationToken);
+            // Send notification to doctor (optional)
+            await _notificationService.SendAsync(feedback.Doctor.UserId, "New Feedback", $"You have received new feedback from {feedback.Patient.FullName}", "dsad");
 
             return new FeedbackResponseDTO
             {

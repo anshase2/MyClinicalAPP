@@ -1,0 +1,27 @@
+﻿@using ClinicsAPP.Models;
+@model IEnumerable<Notification>
+
+@if (Model != null && Model.Any())
+{
+    int counter = 0;
+    foreach (var notification in Model)
+    {
+        <li class="dropdown-item text-wrap">
+            <strong>@notification.Title</strong>
+            <small style="margin-right: 10px;">    @notification.CreatedAt.ToString("yyyy/MM/dd")</small><br />
+            <small>@notification.Message</small>
+
+        </li>
+        counter++;
+        if (counter >5)
+        {
+            break;
+        }
+    }
+}
+else
+{
+    <li class="dropdown-item text-center">
+        There are no notifications
+    </li>
+}

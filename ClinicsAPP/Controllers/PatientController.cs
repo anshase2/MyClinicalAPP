@@ -60,6 +60,7 @@ namespace ClinicsAPP.Controllers
                 }).ToList()
             };
 
+
             return View("PatientProfile", dto);
         }
 

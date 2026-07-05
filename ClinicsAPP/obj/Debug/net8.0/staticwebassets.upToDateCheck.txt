@@ -52,3 +52,9 @@ wwwroot\js\bootstrap.min.js
 wwwroot\js\bootstrap.min.js.map
 wwwroot\js\JavaScript.js
 wwwroot\OIP.webp
+wwwroot\uploads\62de3a1a-25ab-42c4-b399-922222a6ebed.JPG
+wwwroot\uploads\662a1931-f1da-43a8-a373-56f80c910108.jpg
+wwwroot\uploads\790123b1-ae66-4e77-871e-e19ed0f3df84.webp
+wwwroot\uploads\cae7a239-c337-45ab-b278-9e26e4b40df2.jpg
+wwwroot\uploads\default-user.png
+wwwroot\uploads\fcfebab3-118e-4d34-8d0e-e8155758d3f1.webp

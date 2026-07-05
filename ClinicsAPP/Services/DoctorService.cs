@@ -2,6 +2,7 @@ using ClinicsAPP.DTO;
 using ClinicsAPP.Models;
 using ClinicsAPP.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 namespace ClinicsAPP.Services
 {
     public class DoctorService 
@@ -186,6 +187,13 @@ namespace ClinicsAPP.Services
                 .AverageAsync(f => (double?)f.Rating) ?? 0;
 
             return doctor.ToDoctorResponseDTO(Math.Round(avgRating, 1));
+        }
+        public async Task<int> GetDoctorAppointmentsCountAsync(int doctorId)
+        {
+            // Return the total number of appointments for the specified doctor.
+            // Assumes an `Appointments` DbSet exists on the ApplicationDbContext
+            // and that Appointment has a `DoctorId` property.
+            return await _context.Appointments.CountAsync(a => a.DoctorId == doctorId);
         }
     }
 }

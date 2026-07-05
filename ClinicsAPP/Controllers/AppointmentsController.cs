@@ -107,17 +107,34 @@ namespace ClinicsAPP.Controllers
                 ViewBag.FullName = patient?.FullName ?? (appUser != null ? $"{appUser.FirstName} {appUser.LastName}" : string.Empty);
                 ViewBag.Email = appUser?.Email ?? string.Empty;
                 ViewBag.Phone = appUser?.PhoneNumber ?? string.Empty;
-                // ViewBag.price = doctor.Price;
-                // ViewBag.DoctorName = doctor.FullName;
-                //  ViewBag.Specalist = doctor.Specalist;
+              //  ViewBag.price = doctor.Price;
+               // ViewBag.DoctorName = doctor.FullName;
+               // ViewBag.Specalist = doctor.Specalist;
                 return View("~/Views/Doctor/DialogBooking.cshtml", request);
             }
 
             // حفظ الموعد
-            await _appointmentService.CreateAppointmentAsync(request);
-            TempData["SuccessMessage"] = "Appointment booked successfully ✔️";
+           var app= await _appointmentService.CreateAppointmentAsync(request);
+            if (app.Success==false)
+            {
+                ViewBag.FullName = patient?.FullName ?? (appUser != null ? $"{appUser.FirstName} {appUser.LastName}" : string.Empty);
+                ViewBag.Email = appUser?.Email ?? string.Empty;
+                ViewBag.Phone = appUser?.PhoneNumber ?? string.Empty;
+                var doctor = await _doctorService.GetDoctorByIdAsync(id);
+                
+                ViewBag.price = doctor.Price;
+                ViewBag.DoctorName = doctor.FullName;
 
+                ViewBag.Specalist = doctor.Specalist;
 
+                TempData["ErrorMessage"] = app.StatusMessage;
+                request.AppointmentDate = default; // إعادة تعيين التاريخ لعرض رسالة الخطأ فقط
+               
+                return View("~/Views/Doctor/DialogBooking.cshtml", app);
+
+            }
+          
+            TempData["SuccessMessage"] = "Appointment created successfully.";
             // نجاح → تحويل لصفحة البروفايل
             return RedirectToAction("MyProfile", "Patient");
         }
@@ -134,126 +151,153 @@ namespace ClinicsAPP.Controllers
 
             return RedirectToAction("MyAppointments", "Home");
         }
-            // [HttpGet("/Doctor/book-appointment/{id}")]
-            /*  [HttpPost]
-               public async Task<IActionResult> DialogBookingPost(int id)
+        [HttpGet("accept-appointment/{id}")]
+        public async Task<IActionResult> AcceptAppointment(int id)
+        {
+            if (!await _appointmentService.AcceptAppointmentAsync(id))
+            {
+                return NotFound();
+            }
+
+            TempData["SuccessMessage"] = "Appointment accepted successfully.";
+
+            return RedirectToAction("MyAppointments", "Home");
+        }
+        [HttpGet("cancel-appointment/{id}")]
+        public async Task<IActionResult> CancelAppointment(int id)
+        {
+            if (!await _appointmentService.CancelAppointmentAsync(id))
+            {
+                return NotFound();
+            }
+
+            TempData["SuccessMessage"] = "Appointment cancelled successfully.";
+
+            return RedirectToAction("MyAppointments", "Home");
+        }
+
+        // [HttpGet("/Doctor/book-appointment/{id}")]
+        /*  [HttpPost]
+           public async Task<IActionResult> DialogBookingPost(int id)
+           {
+               var doctor = await _doctorService.GetDoctorByIdAsync(id);
+               if (doctor == null)
+                   return NotFound();
+
+               var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+               if (string.IsNullOrEmpty(userIdClaim))
+                   return Challenge();
+
+               if (!Guid.TryParse(userIdClaim, out var userGuid))
+                   return BadRequest();
+
+               PatientResponseDTO? patient = null;
+               try
                {
-                   var doctor = await _doctorService.GetDoctorByIdAsync(id);
-                   if (doctor == null)
-                       return NotFound();
-
-                   var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                   if (string.IsNullOrEmpty(userIdClaim))
-                       return Challenge();
-
-                   if (!Guid.TryParse(userIdClaim, out var userGuid))
-                       return BadRequest();
-
-                   PatientResponseDTO? patient = null;
-                   try
-                   {
-                       patient = await _patientService.GetPatientByUserId(userGuid);
-                   }
-                   catch
-                   {
-                       // ignore if not found
-                   }
-
-                   var appUser = await _userManager.FindByIdAsync(userIdClaim);
-
-                   var model = new CreateAppointmentRequestDTO
-                   {
-                       DoctorId = doctor.DoctorId,
-                       PatientId = patient?.PatientId ?? 0,
-                       AppointmentDate = DateTime.Now
-                   };
-
-                   ViewBag.FullName = patient?.FullName ?? (appUser != null ? $"{appUser.FirstName} {appUser.LastName}" : string.Empty);
-                   ViewBag.Email = appUser?.Email ?? string.Empty;
-                   ViewBag.Phone = appUser?.PhoneNumber ?? string.Empty;
-                   ViewBag.price = doctor.Price;
-                   ViewBag.DoctorName = doctor.FullName;
-                   ViewBag.Specalist = doctor.Specalist;
-
-                   return View("~/Views/Doctor/DialogBooking.cshtml", model);
+                   patient = await _patientService.GetPatientByUserId(userGuid);
+               }
+               catch
+               {
+                   // ignore if not found
                }
 
-               [HttpPost("/Appointments/book-appointment")]
-               public async Task<IActionResult> DialogBookingPost(
-             int id,
-             CreateAppointmentRequestDTO request
-             )
+               var appUser = await _userManager.FindByIdAsync(userIdClaim);
+
+               var model = new CreateAppointmentRequestDTO
                {
-                   // تأكيد الدكتور من الـ route فقط (مصدر موثوق)
-                   request.DoctorId = id;
+                   DoctorId = doctor.DoctorId,
+                   PatientId = patient?.PatientId ?? 0,
+                   AppointmentDate = DateTime.Now
+               };
 
-                   // Validation
-                   if (!ModelState.IsValid)
-                   {
-                       var doctor = await _doctorService.GetDoctorByIdAsync(id);
+               ViewBag.FullName = patient?.FullName ?? (appUser != null ? $"{appUser.FirstName} {appUser.LastName}" : string.Empty);
+               ViewBag.Email = appUser?.Email ?? string.Empty;
+               ViewBag.Phone = appUser?.PhoneNumber ?? string.Empty;
+               ViewBag.price = doctor.Price;
+               ViewBag.DoctorName = doctor.FullName;
+               ViewBag.Specalist = doctor.Specalist;
 
-                       var appUser = await _userManager.FindByIdAsync(
-                           User.FindFirstValue(ClaimTypes.NameIdentifier));
+               return View("~/Views/Doctor/DialogBooking.cshtml", model);
+           }
 
-                       ViewBag.FullName = appUser != null ? $"{appUser.FirstName} {appUser.LastName}" : string.Empty;
-                       ViewBag.Email = appUser?.Email ?? string.Empty;
-                       ViewBag.Phone = appUser?.PhoneNumber ?? string.Empty;
-                       ViewBag.DoctorName = doctor.FullName;
-                       ViewBag.Specialist = doctor.Specalist;
+           [HttpPost("/Appointments/book-appointment")]
+           public async Task<IActionResult> DialogBookingPost(
+         int id,
+         CreateAppointmentRequestDTO request
+         )
+           {
+               // تأكيد الدكتور من الـ route فقط (مصدر موثوق)
+               request.DoctorId = id;
 
-                       ViewBag.Errors = ModelState.Values.SelectMany(temp => temp.Errors).Select(temp => temp.ErrorMessage);
-                       return View("~/Views/Doctor/DialogBooking.cshtml",
-                           new CreateAppointmentRequestDTO {
+               // Validation
+               if (!ModelState.IsValid)
+               {
+                   var doctor = await _doctorService.GetDoctorByIdAsync(id);
 
-                               DoctorId = id,
-                               PatientId = request.PatientId,
-                             AppointmentDate = request.AppointmentDate   
+                   var appUser = await _userManager.FindByIdAsync(
+                       User.FindFirstValue(ClaimTypes.NameIdentifier));
 
-                           });       
-                   }
+                   ViewBag.FullName = appUser != null ? $"{appUser.FirstName} {appUser.LastName}" : string.Empty;
+                   ViewBag.Email = appUser?.Email ?? string.Empty;
+                   ViewBag.Phone = appUser?.PhoneNumber ?? string.Empty;
+                   ViewBag.DoctorName = doctor.FullName;
+                   ViewBag.Specialist = doctor.Specalist;
 
-                   try
-                   {
-                       await _appointmentService.CreateAppointmentAsync(request);
+                   ViewBag.Errors = ModelState.Values.SelectMany(temp => temp.Errors).Select(temp => temp.ErrorMessage);
+                   return View("~/Views/Doctor/DialogBooking.cshtml",
+                       new CreateAppointmentRequestDTO {
 
-                       TempData["Message"] = "Appointment created successfully.";
-                       //send nootification 
-                       return RedirectToAction("MyProfile", "Patient");
-                   }
-                   catch (InvalidOperationException ex)
-                   {
-                       ModelState.AddModelError(string.Empty, ex.Message);
+                           DoctorId = id,
+                           PatientId = request.PatientId,
+                         AppointmentDate = request.AppointmentDate   
 
-                       var doctor = await _doctorService.GetDoctorByIdAsync(id);
+                       });       
+               }
 
-                       return View("~/Views/Doctor/DialogBooking.cshtml",
-                         new CreateAppointmentRequestDTO
-                         {
+               try
+               {
+                   await _appointmentService.CreateAppointmentAsync(request);
 
-                             DoctorId = id,
-                             PatientId = request.PatientId,
-                             AppointmentDate = request.AppointmentDate
+                   TempData["Message"] = "Appointment created successfully.";
+                   //send nootification 
+                   return RedirectToAction("MyProfile", "Patient");
+               }
+               catch (InvalidOperationException ex)
+               {
+                   ModelState.AddModelError(string.Empty, ex.Message);
 
-                         });
-                   }
-               }*/
+                   var doctor = await _doctorService.GetDoctorByIdAsync(id);
+
+                   return View("~/Views/Doctor/DialogBooking.cshtml",
+                     new CreateAppointmentRequestDTO
+                     {
+
+                         DoctorId = id,
+                         PatientId = request.PatientId,
+                         AppointmentDate = request.AppointmentDate
+
+                     });
+               }
+           }*/
 
 
-            [HttpPost]
+        [HttpPost]
             [ProducesResponseType(typeof(AppointmentResponseDTO), StatusCodes.Status201Created)]
             [ProducesResponseType(StatusCodes.Status400BadRequest)]
             public async Task<ActionResult<AppointmentResponseDTO>> Create(
             [FromBody] CreateAppointmentRequestDTO request,
             CancellationToken cancellationToken)
             {
+
                 if (!ModelState.IsValid)
                     return ValidationProblem(ModelState);
 
                 try {
                     var created = await _appointmentService.CreateAppointmentAsync(request, cancellationToken);
 
-                    return Created($"/appointments/{created.Id}", created);
-                }
+                return Created($"/appointments/{created.Id}", created);
+              
+            }
                 catch (InvalidOperationException ex)
                 {
                     return BadRequest(new { error = ex.Message });

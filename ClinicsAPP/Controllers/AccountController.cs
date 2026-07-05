@@ -20,17 +20,19 @@ namespace ClinicsAPP.Controllers
         private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly DoctorService _doctorService;
         private readonly IPatientService _PatientService;
+        private readonly ImageService _imageService;
 
 
 
 
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<ApplicationRole> roleManager, DoctorService doctorService, IPatientService patientService)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<ApplicationRole> roleManager, DoctorService doctorService, IPatientService patientService, ImageService imageService)
 
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
+            _imageService = imageService;
             _doctorService = doctorService;
             _PatientService = patientService;
 
@@ -61,6 +63,8 @@ namespace ClinicsAPP.Controllers
 
                     if (string.IsNullOrEmpty(registerDTO.Doctor.Location))
                         ModelState.AddModelError("Doctor.Location", "Location is required");
+                    if (registerDTO.Doctor.ImageUrl == null || registerDTO.Doctor.ImageUrl.Length == 0)
+                        ModelState.AddModelError("Doctor.ImageUrl", "Profile image is required");
                 }
             }
             if (!ModelState.IsValid)
@@ -74,7 +78,22 @@ namespace ClinicsAPP.Controllers
                 ModelState.AddModelError(nameof(registerDTO.ConfirmPassword), "Password and confirmation do not match.");
                 return View(registerDTO);
             }
-           
+            var phoneExists = await _userManager.Users
+       .AnyAsync(u => u.PhoneNumber == registerDTO.Phone);
+
+            if (phoneExists)
+            {
+                ModelState.AddModelError(nameof(registerDTO.Phone), "Phone number is already in use.");
+                return View(registerDTO);
+            }
+
+            var emailExists = await _userManager.FindByEmailAsync(registerDTO.Email);
+
+            if (emailExists != null)
+            {
+                ModelState.AddModelError(nameof(registerDTO.Email), "Email is already in use.");
+                return View(registerDTO);
+            }
 
             var user = new ApplicationUser
             {
@@ -107,15 +126,22 @@ namespace ClinicsAPP.Controllers
                 await _userManager.AddToRoleAsync(user, role);
                 if (role == "Doctor")
                 {
+                    if(registerDTO.Doctor.ImageUrl == null)
+                    {
+                        ModelState.AddModelError("Doctor.ImageUrl", "Profile image is required");
+                        return View(registerDTO);
+                    }
                     var Doctor = new DoctorRequestDTO
                     {
 
                         FullName = registerDTO.FirstName + " " + registerDTO.LastName,
                         Location = registerDTO.Doctor.Location,
                         Price = registerDTO.Doctor.Price,
-                        ImageUrl = "",
+                        ImageUrl=await _imageService.UploadAsync(registerDTO.Doctor.ImageUrl),
+                        // ImageUrl = await _imageService.UploadAsync(registerDTO.Doctor.ImageUrl) ,
                         Specalist = registerDTO.Doctor.Specalist,
-                        UserId = user.Id
+                        UserId = user.Id,
+                        Description = registerDTO.Doctor.Description??""
                     };
                     await _doctorService.CreateDoctorAsync(Doctor);
 
@@ -141,7 +167,7 @@ namespace ClinicsAPP.Controllers
 
             foreach (IdentityError error in result.Errors)
             {
-                ModelState.AddModelError("Register", error.Description);
+                ModelState.AddModelError("", error.Description);
             }
 
            
@@ -185,7 +211,7 @@ namespace ClinicsAPP.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction(nameof(HomeController.Home), "Home");
+            return RedirectToAction(nameof(Login));
         }
     }
 }

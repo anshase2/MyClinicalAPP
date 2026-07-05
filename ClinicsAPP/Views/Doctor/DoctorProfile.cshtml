@@ -14,7 +14,7 @@
 <!-- FontAwesome for stars and icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 
-<div class="container mt-4 mb-5">
+<div class="container mt-10 mb-10">
     <div class="profile-page">
         <div class="row profile-grid">
 
@@ -51,6 +51,7 @@
                 <div class="profile-grid">
 
                     <!-- LEFT: Doctor Card -->
+                 
                     <div class="profile-card">
 
                         <div class="profile-head">
@@ -111,11 +112,14 @@
 
                 <div class="text-end">
 
-                    <a class="btn btn-primary btn-sm px-3 py-2 fw-bold shadow-sm"
+                 @*   <a class="btn btn-primary btn-sm px-3 py-2 fw-bold shadow-sm"
                        asp-controller="Appointment"
                        asp-action="Book"
                        asp-route-id="@Model.DoctorId">
                         BOOK APPOINTMENT
+                    </a>*@
+                    <a class="btn btn-primary btn-sm px-3 py-2 fw-bold shadow-sm" href="~/Appointments/book-appointment/@Model.DoctorId" class="btn btn-primary-custom w-200 py-2 rounded-3 text-white">
+                        Book Appointment
                     </a>
 
                     <div class="hint text-muted small mt-1">
@@ -132,6 +136,7 @@
             <!-- RIGHT: Details with Dynamic Tabs -->
             <div class="col-lg-8">
                 <div class="profile-details card border-0 shadow-sm p-0 mb-4 overflow-hidden">
+   
 
                     <!-- Tab Navigation -->
                     <div class="tabs-nav bg-light border-bottom d-flex overflow-auto">
@@ -212,7 +217,7 @@
                                                 {
                                                     // This is a placeholder for where @Model.Appointments.Count() would go
                                                     // apptCount = Model.Appointments?.Count() ?? 0;
-                                                    apptCount = 150; // Example static-ish dynamic value for demo
+                                                    apptCount = Model.AppointmentsCount ?? 0; // Example static-ish dynamic value for demo
                                                 }
                                                 catch { apptCount = 0; }
                                             }
@@ -264,7 +269,7 @@
                                             <h4 class="h6 fw-bold mb-0">Holidays</h4>
                                         </div>
                                         <div class="d-flex justify-content-between align-items-center">
-                                            <span class="text-muted">Friday - Saturday</span>
+                                            <span class="text-muted">Saturday</span>
                                             <span class="badge bg-light text-dark border">10:00 AM - 1:00 PM</span>
                                         </div>
                                     </div>
@@ -450,6 +455,10 @@
     .profile-card {
         position: sticky;
         top: 20px;
+        width: 500px;
+      
+        padding: 5px;
+       
     }
 
     @@media (max-width: 991.98px) {

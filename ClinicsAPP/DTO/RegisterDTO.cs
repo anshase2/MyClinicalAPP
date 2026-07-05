@@ -14,7 +14,7 @@ namespace ClinicsAPP.DTO
 
         [Required(ErrorMessage = "Last name can't be blank")]
         public string LastName { get; set; } = string.Empty;
-
+        [Required(ErrorMessage = "Date of birth can't be blank")]
         public DateTime? DateOfBirth { get; set; }
 
         public string? Gender { get; set; }

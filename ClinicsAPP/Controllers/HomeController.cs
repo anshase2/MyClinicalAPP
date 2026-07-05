@@ -68,6 +68,7 @@ namespace ClinicsAPP.Controllers
                 try
                 {
                     var details = await _patientService.GetPatientDetailsByUserId(userGuid);
+                    
                     var appointments = details?.Appointments ?? new List<AppointmentResponseDTO>();
                     return View(appointments);
                 }
@@ -97,7 +98,8 @@ namespace ClinicsAPP.Controllers
                         DoctorId = a.DoctorId,
                         AppointmentDate = a.AppointmentDate,
                         DoctorName = a.Doctor.FullName,
-                        PatientName = a.Patient.FullName
+                        PatientName = a.Patient.FullName,
+                        Status= a.Status
                     })
                     .ToListAsync();
 

@@ -13,7 +13,12 @@
 
 <link rel="stylesheet" href="~/css/bootstrap.css" />
 <link rel="stylesheet" href="~/css/book-appointment.css" />
-
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
 <div class="modal fade show d-block" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content rounded-4 shadow">

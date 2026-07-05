@@ -11,6 +11,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+/*builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+{
+    options.User.RequireUniqueEmail = true;
+})
+.AddEntityFrameworkStores<ApplicationDbContext>();*/
 
 /*builder.Services
     .AddIdentity<ApplicationUser, ApplicationRole>(options =>
@@ -26,6 +31,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     .AddDefaultTokenProviders();
 */
 builder.Services.AddScoped<DoctorService>();
+builder.Services.AddScoped<ImageService>();
 //Enable Identity in this project
 builder.Services.AddScoped<IFeedbackService, FeedbackService>();
 
@@ -58,6 +64,7 @@ builder.Services.ConfigureApplicationCookie(options => {
 });*/
 builder.Services.AddScoped<IAppointmentService, AppointmentService>();
 builder.Services.AddScoped<IFeedbackService, FeedbackService>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
 
 builder.Services.AddControllersWithViews();
 

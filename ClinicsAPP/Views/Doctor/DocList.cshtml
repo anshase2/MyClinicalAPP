@@ -17,86 +17,104 @@
                 <i class="bi bi-search me-2"></i> Search Options
             </h5>
 
-            <form asp-action="Search" method="get">
+            <form action="/Doctor/Search" method="get">
                 <div class="row g-3">
+
                     <!-- Doctor Name -->
                     <div class="col-md-6">
-                        <label asp-for="DoctorName" class="form-label text-muted small fw-semibold">Doctor Name</label>
-                        <input asp-for="DoctorName" class="form-control bg-light border-0 py-2" placeholder="Search by name...">
+                        <label class="form-label text-muted small fw-semibold">Doctor Name</label>
+                        <input name="DoctorName" class="form-control bg-light border-0 py-2" value="@(ViewBag.DoctorName ?? "")" placeholder="@(ViewBag.DoctorName ?? "Search by name...")">
                     </div>
 
                     <!-- Gender -->
                     <div class="col-md-6">
-                        <label asp-for="Gender" class="form-label text-muted small fw-semibold">Gender</label>
-                        <select asp-for="Gender" class="form-select bg-light border-0 py-2">
-                            <option value="">All Genders</option>
+                        <label class="form-label text-muted small fw-semibold">Gender</label>
+                        <select name="Gender" class="form-select bg-light border-0 py-2">
+                            <option value="@(ViewBag.Gender ?? "")">@(ViewBag.Gender ?? "All Gender")</option>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
                         </select>
                     </div>
 
-                    <!-- Language -->
+                    <!-- Location -->
                     <div class="col-md-6">
-                        <label asp-for="Language" class="form-label text-muted small fw-semibold">Language</label>
-                        <select asp-for="Language" class="form-select bg-light border-0 py-2">
-                            <option value="">All Languages</option>
-                            <option value="English">English</option>
-                            <option value="Spanish">Spanish</option>
-                            <option value="Arabic">Arabic</option>
+                        <label class="form-label text-muted small fw-semibold">Location</label>
+                        <select name="Location" class="form-select bg-light border-0 py-2">
+                            <option value="@(ViewBag.Location ?? "")">@(ViewBag.Location ?? "All Locations")</option>
+                            <option value="Amman">Amman</option>
+                            <option value="Irbid">Irbid</option>
+                            <option value="Zarqa">Zarqa</option>
+                            <option value="Aqaba">Aqaba</option>
+                            <option value="Madaba">Madaba</option>
+                            <option value="Salt">Salt</option>
+                            <option value="Jerash">Jerash</option>
+                            <option value="Karak">Karak</option>
+                            <option value="Ma'an">Ma'an</option>
+                            <option value="Tafilah">Tafilah</option>
+                            <option value="Mafraq">Mafraq</option>
                         </select>
                     </div>
 
                     <!-- Medical Specialty -->
                     <div class="col-md-6">
-                        <label asp-for="Specialty" class="form-label text-muted small fw-semibold">Medical Specialty</label>
-                        <select asp-for="Specialty" class="form-select bg-light border-0 py-2">
-                            <option value="">All Specialties</option>
-                            <option value="Cardiology">Cardiology</option>
-                            <option value="Dermatology">Dermatology</option>
-                            <option value="Pediatrics">Pediatrics</option>
+                        <label class="form-label text-muted small fw-semibold">Medical Specialty</label>
+                        <select name="Specialty" class="form-select bg-light border-0 py-2">
+                            <option value="@(ViewBag.Specialty ?? "")">@(ViewBag.Specialty ?? "All Specialties")</option>
+                            <option value="Cardiology">Cardiology (Heart)</option>
+                            <option value="Dermatology">Dermatology (Skin)</option>
+                            <option value="Pediatrics">Pediatrics (Children)</option>
+                            <option value="Neurology">Neurology (Brain & Nerves)</option>
+                            <option value="Orthopedics">Orthopedics (Bones)</option>
+                            <option value="General Surgery">General Surgery</option>
+                            <option value="Internal Medicine">Internal Medicine</option>
+                            <option value="Psychiatry">Psychiatry</option>
+                            <option value="Gynecology">Gynecology</option>
+                            <option value="Ophthalmology">Ophthalmology (Eyes)</option>
+                            <option value="ENT">ENT (Ear, Nose & Throat)</option>
+                            <option value="Urology">Urology</option>
+                            <option value="Radiology">Radiology</option>
+                            <option value="Anesthesiology">Anesthesiology</option>
+                            <option value="Oncology">Oncology (Cancer)</option>
+                            <option value="Endocrinology">Endocrinology (Hormones)</option>
+                            <option value="Pulmonology">Pulmonology (Lungs)</option>
+                            <option value="Gastroenterology">Gastroenterology (Digestive)</option>
                         </select>
                     </div>
-
-                    <!-- Medical Services -->
                     <div class="col-md-6">
-                        <label asp-for="Service" class="form-label text-muted small fw-semibold">Medical Services</label>
-                        <select asp-for="Service" class="form-select bg-light border-0 py-2">
-                            <option value="">All Services</option>
-                            <option value="Consultation">Consultation</option>
-                            <option value="Surgery">Surgery</option>
+                        <label class="form-label text-muted small fw-semibold">Sort By</label>
+                        <select name="SortBy" class="form-select bg-light border-0 py-2">
+                            <option value="@(ViewBag.SortBy ?? "")">@(ViewBag.SortBy ?? "Default")</option>
+
+                       
+                            <option value="Price">Price</option>
+                            <option value="Rating">Rating</option>
                         </select>
                     </div>
+                    
+                   
 
-                    <!-- Insurance Companies -->
-                    <div class="col-md-6">
-                        <label asp-for="Insurance" class="form-label text-muted small fw-semibold">Insurance Companies</label>
-                        <select asp-for="Insurance" class="form-select bg-light border-0 py-2">
-                            <option value="">All Insurance</option>
-                            <option value="Aetna">Aetna</option>
-                            <option value="Cigna">Cigna</option>
-                        </select>
-                    </div>
-
-                    <!-- Location (GPS) -->
-                    <div class="col-12 mt-4">
-                        <div class="d-flex align-items-center">
-                            <span class="text-muted small fw-semibold me-3">Location (GPS)</span>
-                            <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill px-3 d-flex align-items-center">
-                                <i class="bi bi-geo-alt me-1"></i> Use My Location
-                            </button>
-                        </div>
-                    </div>
+                              
+                           
                 </div>
 
-                <!-- Action Buttons -->
+                @*Action Buttons 
                 <div class="d-flex justify-content-end gap-2 mt-4">
                     <button type="reset" class="btn btn-light border px-4 d-flex align-items-center">
                         <i class="bi bi-x-lg me-2"></i> Clear
-                    </button>
+                    </button> *@
+                <div class="d-flex justify-content-end gap-2 mt-4">
+
+                <button type="button" class="btn btn-light border px-4 d-flex align-items-center"
+                        onclick="window.location='/Doctorlist'">
+                    <i class="bi bi-x-lg me-2"></i> Clear
+                </button>
+              
+
                     <button type="submit" class="btn btn-primary-custom px-4 d-flex align-items-center text-white">
                         <i class="bi bi-search me-2"></i> Search
                     </button>
                 </div>
+               
             </form>
         </div>
     </div>
@@ -106,15 +124,9 @@
     <div class="d-flex justify-content-between align-items-end mb-4">
         <div>
             <h3 class="fw-bold mb-1">Available Doctors</h3>
-            <p class="text-muted small mb-0">Model.AvailableDoctors.Count doctors found</p>
+            <p class="text-muted small mb-0">@Model.Count() doctors found</p>
         </div>
-        <div class="d-flex align-items-center gap-2">
-            <span class="text-muted small">Sort by:</span>
-            <select class="form-select form-select-sm border-0 bg-light px-3 py-2 rounded-3" style="width: auto;">
-                <option>Price</option>
-                <option>Rating</option>
-            </select>
-        </div>
+        
     </div>
 
     <div class="row g-4">
@@ -125,7 +137,9 @@
                     <div class="card-body p-4">
                         <div class="d-flex justify-content-between align-items-start mb-3">
                             <div class="d-flex align-items-center">
-                                <img src="~/OIP.webp" alt=@doctor.FullName class="rounded-circle me-3 object-fit-cover" width="60" height="60">
+                                <img src="@(string.IsNullOrEmpty(doctor.ImageUrl)
+                                                 ? "/uploads/default-user.png"
+                                                 : doctor.ImageUrl)" alt=@doctor.FullName class="rounded-circle me-3 object-fit-cover" width="60" height="60">
                                 <div>
                                     <h6 class="fw-bold mb-0">@doctor.FullName</h6>
                                     <p class="text-muted small mb-1">@doctor.Specalist</p>

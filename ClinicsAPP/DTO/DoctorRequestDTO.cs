@@ -24,6 +24,8 @@ namespace ClinicsAPP.DTO
         public decimal? Price { get; set; }
        // [RegularExpression(@"^\+9627[789]\d{7}$", ErrorMessage = "Invalid phone number")]
      //   public string? Phone { get; set; }
+      //  public string? ImageUrl { get; set; }
+       // [Required(ErrorMessage = "Profile image is required")]
         public string? ImageUrl { get; set; }
         public Guid UserId { get; set; }
        

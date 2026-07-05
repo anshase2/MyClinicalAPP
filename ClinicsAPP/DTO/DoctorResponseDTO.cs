@@ -1,4 +1,5 @@
 ﻿using System;
+using ClinicsAPP.Contracts;
 using ClinicsAPP.Models;
 
 namespace ClinicsAPP.DTO
@@ -23,6 +24,7 @@ namespace ClinicsAPP.DTO
         public string? ImageUrl { get; set; }
         // public bool IsApproved { get; set; }
         public bool? IsAvailable { get; set; }
+        public int ?AppointmentsCount { get; set; } 
 
 
     }

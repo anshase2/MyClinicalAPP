@@ -12,11 +12,13 @@ namespace ClinicsAPP.Services
     {
         private readonly ApplicationDbContext _context;
         private readonly IPatientService _patientService;
+        private readonly INotificationService _notificationService;
 
 
 
-        public AppointmentService(ApplicationDbContext context, IPatientService patientService)
+        public AppointmentService(ApplicationDbContext context, IPatientService patientService, INotificationService notificationService)
         {
+            _notificationService = notificationService;
             _context = context;
             _patientService = patientService;
         }
@@ -38,17 +40,44 @@ namespace ClinicsAPP.Services
 
         public async Task<bool> RejectAppointmentAsync(int appointmentId, CancellationToken cancellationToken = default)
         {
-            var appointment = await _context.Appointments
+            var appointment = await _context.Appointments.Include(a => a.Patient)
                 .FirstOrDefaultAsync(a => a.Id == appointmentId, cancellationToken);
 
             if (appointment == null)
-                throw new InvalidOperationException("Appointment not found.");
-
-            _context.Appointments.Remove(appointment);
+                return false;
+            appointment.Status = "Rejected";
+           
             await _context.SaveChangesAsync(cancellationToken);
+            await _notificationService.SendAsync(appointment.Patient.UserId, "Appointment Rejected", $"Your appointment on {appointment.AppointmentDate} has been rejected.", "dsad");
             return true;
         }
 
+        public async Task<bool> AcceptAppointmentAsync(int appointmentId, CancellationToken cancellationToken = default)
+        {
+            var appointment = await _context.Appointments.Include(a => a.Patient)
+                .FirstOrDefaultAsync(a => a.Id == appointmentId, cancellationToken);
+
+            if (appointment == null)
+               return false;
+            appointment.Status = "Accepted";
+
+            await _context.SaveChangesAsync(cancellationToken);
+            await _notificationService.SendAsync(appointment.Patient.UserId, "Appointment Accepted", $"Your appointment on {appointment.AppointmentDate} has been accepted.", "dsad");
+            return true;
+        }
+        public async Task<bool> CancelAppointmentAsync(int appointmentId, CancellationToken cancellationToken = default)
+        {
+            var appointment = await _context.Appointments.Include(a=>a.Patient).Include(a => a.Doctor)
+                .FirstOrDefaultAsync(a => a.Id == appointmentId, cancellationToken);
+
+            if (appointment == null)
+                return false;
+            appointment.Status = "Cancelled";
+
+            await _context.SaveChangesAsync(cancellationToken);
+            await _notificationService.SendAsync(appointment.Patient.UserId, "Appointment Cancelled", $"Your appointment on {appointment.AppointmentDate} has been cancelled.", "dsad");
+            return true;
+        }
         public async Task<AppointmentResponseDTO> CreateAppointmentAsync(CreateAppointmentRequestDTO request, CancellationToken cancellationToken = default)
         {
             if (request == null)
@@ -59,15 +88,36 @@ namespace ClinicsAPP.Services
  request.AppointmentDate.Day,
  request.AppointmentDate.Hour,
  0, 0);
-            var exists = await _context.Appointments
+            /*var exists = await _context.Appointments
      .AnyAsync(a =>
-         a.AppointmentDate==normalized
-         );
+         a.AppointmentDate==normalized &&(a.Status== "Accepted"|| a.Status == "Pending")
+         );*/
+            var doctorConflict = await _context.Appointments
+    .AnyAsync(a =>
+        a.DoctorId == request.DoctorId &&
+        a.AppointmentDate == normalized &&
+        (a.Status == "Accepted" || a.Status == "Pending")
+    );
+            var patientConflict = await _context.Appointments
+    .AnyAsync(a =>
+        a.PatientId == request.PatientId &&
+        a.AppointmentDate == normalized &&
+        (a.Status == "Accepted" || a.Status == "Pending")
+    );
+            if (doctorConflict)
+                return new AppointmentResponseDTO
+                {
+                    Success = false,
+                    StatusMessage = "Doctor already has an appointment at this time"
+                };
 
-            if (exists)
-            {
-                throw new Exception("this date is already booked for another patient");
-            }
+            if (patientConflict)
+                return new AppointmentResponseDTO
+                {
+
+                    Success = false,
+                    StatusMessage = "Patient already has an appointment at this time"
+                };
             var patientExists = await _context.Patients.AnyAsync(p => p.PatientId == request.PatientId, cancellationToken);
             if (!patientExists)
                 throw new InvalidOperationException("Patient not found.");
@@ -81,12 +131,16 @@ namespace ClinicsAPP.Services
             {
                 PatientId = request.PatientId,
                 DoctorId = request.DoctorId,
-                AppointmentDate = request.AppointmentDate
+                AppointmentDate = request.AppointmentDate,
+                Status = "Pending"
+
             };
 
             _context.Appointments.Add(appointment);
             await _context.SaveChangesAsync(cancellationToken);
-            //send notification to doctor and patient (optional)    
+            //send notification to doctor and patient (optional)
+            //
+            _notificationService.SendAsync(appointment.Patient.UserId, "Booking Request", $"New appointment request from you on {request.AppointmentDate}", "dsad");
 
             return await MapToDto(appointment);
         }
@@ -121,6 +175,7 @@ namespace ClinicsAPP.Services
             Id = a.Id,
             PatientId = a.PatientId,
             DoctorId = a.DoctorId,
+            Success=true,
            // PatientName = await _patientService.GetPatientNameAsync(a.PatientId) ?? "Unknown",
            // DoctorName = await _context.Doctors.Where(d => d.DoctorId == a.DoctorId).Select(d => d.FullName).FirstOrDefaultAsync(),
             AppointmentDate = a.AppointmentDate

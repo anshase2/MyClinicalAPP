@@ -25,7 +25,7 @@ namespace ClinicsAPP.Data
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Appointment>()
           .Property(a => a.Status)
-          .HasDefaultValue("Accepted");
+          .HasDefaultValue("Pending");
 
             // فقط أسماء الجداول
             modelBuilder.Entity<Doctor>().ToTable("Doctors");

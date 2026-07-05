@@ -10,5 +10,8 @@ namespace ClinicsAPP.Contracts
         Task<bool> HasAppointmentAsync(int patientId, int doctorId, CancellationToken cancellationToken = default);
         Task<int> CleanupPastAppointmentsAsync(CancellationToken cancellationToken = default);
         Task<bool> RejectAppointmentAsync(int appointmentId, CancellationToken cancellationToken = default);
+        Task<bool> AcceptAppointmentAsync(int appointmentId, CancellationToken cancellationToken = default);
+        Task<bool> CancelAppointmentAsync(int appointmentId, CancellationToken cancellationToken = default);
+
     }
 }

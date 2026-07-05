@@ -1,4 +1,5 @@
 ﻿using ClinicsAPP.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ClinicsAPP.Contracts
 {
@@ -9,5 +10,6 @@ namespace ClinicsAPP.Contracts
         Task<List<Notification>> GetUserNotificationsAsync(Guid userId);
 
         Task MarkAsReadAsync(int notificationId);
+
     }
 }

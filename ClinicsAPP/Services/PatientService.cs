@@ -76,7 +76,9 @@ namespace ClinicsAPP.Services
                 {
                     Id = a.Id,
                     AppointmentDate = a.AppointmentDate,
-                    DoctorName = a.Doctor.FullName
+                    DoctorName = a.Doctor.FullName,
+                    DoctorImage = a.Doctor.ImageUrl,
+                    Status = a.Status
                 }).ToList(),
 
                 Feedbacks = patient.Feedbacks.Select(f => new FeedbackResponseDTO

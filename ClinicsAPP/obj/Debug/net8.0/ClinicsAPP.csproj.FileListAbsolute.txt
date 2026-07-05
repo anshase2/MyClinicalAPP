@@ -141,10 +141,10 @@ C:\Users\osama\source\repos\ClinicsAPP\ClinicsAPP\obj\Debug\net8.0\staticwebasse
 C:\Users\osama\source\repos\ClinicsAPP\ClinicsAPP\obj\Debug\net8.0\staticwebassets.build.json.cache
 C:\Users\osama\source\repos\ClinicsAPP\ClinicsAPP\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\osama\source\repos\ClinicsAPP\ClinicsAPP\obj\Debug\net8.0\staticwebassets.build.endpoints.json
-C:\Users\osama\source\repos\ClinicsAPP\ClinicsAPP\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\osama\source\repos\ClinicsAPP\ClinicsAPP\obj\Debug\net8.0\ClinicsAPP.csproj.Up2Date
 C:\Users\osama\source\repos\ClinicsAPP\ClinicsAPP\obj\Debug\net8.0\ClinicsAPP.dll
 C:\Users\osama\source\repos\ClinicsAPP\ClinicsAPP\obj\Debug\net8.0\refint\ClinicsAPP.dll
 C:\Users\osama\source\repos\ClinicsAPP\ClinicsAPP\obj\Debug\net8.0\ClinicsAPP.pdb
 C:\Users\osama\source\repos\ClinicsAPP\ClinicsAPP\obj\Debug\net8.0\ClinicsAPP.genruntimeconfig.cache
 C:\Users\osama\source\repos\ClinicsAPP\ClinicsAPP\obj\Debug\net8.0\ref\ClinicsAPP.dll
+C:\Users\osama\source\repos\ClinicsAPP\ClinicsAPP\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
